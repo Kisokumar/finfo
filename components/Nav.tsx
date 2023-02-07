@@ -21,12 +21,16 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { LinkButton } from "./LinkButton";
 import { ReactNode } from "react";
 
+const UseColorMode = useColorMode;
+const UseDisclosure = useDisclosure;
+const UseColorModeValue = useColorModeValue;
+
 export default function nav() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = UseColorMode();
+  const { isOpen, onOpen, onClose } = UseDisclosure();
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box bg={UseColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
             <LinkButton label="home" href="/">

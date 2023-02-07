@@ -24,14 +24,15 @@ export default function SmallCentered() {
         borderTopWidth={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.700")}
+        w="100%"
       >
         <Container
           as={Stack}
-          maxW={"6xl"}
+          maxW={"9xl"}
           py={4}
           direction={{ base: "column", md: "row" }}
-          spacing={4}
-          justify={{ base: "center", md: "space-between" }}
+          spacing={6}
+          justify={{ base: "center", md: "space-between", sm: "space-between" }}
           align={{ base: "center", md: "center" }}
         >
           <Text>© 2023 Finfo. All rights reserved</Text>
