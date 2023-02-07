@@ -1,5 +1,7 @@
+import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
+import { Provider } from "chakra-ui-carousel";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +19,8 @@ export default function Home(props: any) {
       </Head>
       <main>
         <>
-          Homea
+          {console.log(process.env.KEY)}
+          Home
           {props.abilities.map((ability: any, index: any) => {
             return <li key={index}>{ability.ability.name}</li>;
           })}
