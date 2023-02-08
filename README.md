@@ -4,6 +4,20 @@ Financial information at your fingertips!
 
 Todo:
 
+# Components
+
+- [ ] Carousel
+
+- [x] NavBar
+
+- [x] Footer
+
+- [ ] Cards
+
+- [ ] Graph Component
+
+# Pages
+
 - [ ] Stocks Dashboard
 
 - [ ] Individual Stock View (graph etc)

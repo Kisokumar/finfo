@@ -10,12 +10,14 @@ import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
 import { LinkButton } from "./LinkButton";
 
+const UseColorModeValue = useColorModeValue;
+
 export default function SmallCentered() {
   return (
     <Box
-      bg={useColorModeValue("gray.50", "gray.900")}
-      color={useColorModeValue("gray.700", "gray.200")}
-      pos="absolute"
+      bg={UseColorModeValue("gray.50", "gray.900")}
+      color={UseColorModeValue("gray.700", "gray.200")}
+      pos="fixed"
       bottom="0"
       left="0"
       w="100%"
@@ -23,7 +25,7 @@ export default function SmallCentered() {
       <Box
         borderTopWidth={1}
         borderStyle={"solid"}
-        borderColor={useColorModeValue("gray.200", "gray.700")}
+        borderColor={UseColorModeValue("gray.200", "gray.700")}
         w="100%"
       >
         <Container
@@ -35,8 +37,8 @@ export default function SmallCentered() {
           justify={{ base: "center", md: "space-between", sm: "space-between" }}
           align={{ base: "center", md: "center" }}
         >
-          <Text>© 2023 Finfo. All rights reserved</Text>
-          <Stack direction={"row"} spacing={6}>
+          <Text fontSize={"xs"}>© 2023 Finfo. All rights reserved</Text>
+          {/* <Stack direction={"row"} spacing={6}>
             <LinkButton label={"Twitter"} href={"#"}>
               <FaTwitter />
             </LinkButton>
@@ -46,7 +48,7 @@ export default function SmallCentered() {
             <LinkButton label={"Instagram"} href={"#"}>
               <FaInstagram />
             </LinkButton>
-          </Stack>
+          </Stack> */}
         </Container>
       </Box>
     </Box>
