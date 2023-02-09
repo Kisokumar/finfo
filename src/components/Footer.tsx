@@ -5,10 +5,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-
-import Link from "next/link";
-import { LinkButton } from "./LinkButton";
+// import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 const UseColorModeValue = useColorModeValue;
 
@@ -19,7 +16,6 @@ export default function SmallCentered() {
       color={UseColorModeValue("gray.700", "gray.200")}
       pos="fixed"
       bottom="0"
-      left="0"
       w="100%"
     >
       <Box

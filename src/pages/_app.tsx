@@ -1,9 +1,13 @@
-import { ChakraProvider, Container, extendTheme } from "@chakra-ui/react";
+import {
+  Box,
+  ChakraProvider,
+  ThemeConfig,
+  extendTheme,
+} from "@chakra-ui/react";
 
 import type { AppProps } from "next/app";
-import { Box } from "@chakra-ui/react";
-import Footer from "components/Footer";
-import Nav from "components/Nav";
+import Footer from "@/components/Footer";
+import Nav from "@/components/Nav";
 
 const colors = {
   brand: {
@@ -13,7 +17,12 @@ const colors = {
   },
 };
 
-const theme = extendTheme({ colors });
+const config: ThemeConfig = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
+};
+
+const theme = extendTheme({ config, colors });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
