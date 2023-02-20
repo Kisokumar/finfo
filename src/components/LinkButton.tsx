@@ -1,9 +1,7 @@
-import { Box, chakra } from "@chakra-ui/react";
+import { Box, VisuallyHidden, useColorModeValue } from "@chakra-ui/react";
 
 import Link from "next/link";
 import { ReactNode } from "react";
-import { VisuallyHidden } from "@chakra-ui/react";
-import { useColorModeValue } from "@chakra-ui/react";
 
 export const LinkButton = ({
   href,

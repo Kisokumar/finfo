@@ -6,17 +6,14 @@ import {
   Heading,
   Hide,
   IconButton,
-  Show,
+  Spacer,
   Stack,
-  useColorMode,
-  useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { UseColorMode, UseColorModeValue, UseDisclosure } from "./Hooks";
 
 import Link from "next/link";
 import { LinkButton } from "./LinkButton";
-import { Spacer } from "@chakra-ui/react";
 
 const Links = [
   { name: "Home", link: "/" },
@@ -24,21 +21,18 @@ const Links = [
   { name: "Economy", link: "/economy" },
   { name: "Crypto", link: "/crypto" },
   { name: "Forex", link: "/forex" },
+  { name: "News", link: "/news" },
 ];
-
-const UseColorMode = useColorMode;
-const UseDisclosure = useDisclosure;
-const UseColorModeValue = useColorModeValue;
 
 export default function Simple() {
   const { isOpen, onOpen, onClose } = UseDisclosure();
   const { colorMode, toggleColorMode } = UseColorMode();
-  const bg = UseColorModeValue("gray.100", "gray.900");
+  const bg = UseColorModeValue("gray.900", "gray.900");
   const links = UseColorModeValue("gray.400", "gray.800");
 
   return (
     <>
-      <Box py={0.5} bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box bg={UseColorModeValue("gray.100", "gray.900")} px={8}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
