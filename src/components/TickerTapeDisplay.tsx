@@ -25,7 +25,7 @@ export default function TickerTapeDisplay(props: any) {
   `;
 
   const CarouselSlide = styled.div`
-    animation: ${scrollAnimation} ${props.iterationTime}s linear infinite;
+    animation: ${scrollAnimation} ${props.iterationTime}s infinite;
     display: flex;
     flex-direction: column;
 

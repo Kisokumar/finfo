@@ -7,7 +7,7 @@ export default function Error(props: any) {
   return (
     <Flex direction="column" alignItems="center" mt={"100px"}>
       <Heading size="2xl" mb={8}>
-        Error 404
+        Error 500
       </Heading>
 
       <Heading size="s" mb={8} w={"lg"} textAlign={"center"}>

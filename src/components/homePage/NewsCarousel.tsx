@@ -12,24 +12,7 @@ import {
 import React from "react";
 import TickerTapeDisplay from "../TickerTapeDisplay";
 import { UseColorModeValue } from "../Hooks";
-
-function getTimeElapsedString(dateString: string) {
-  const date: any = new Date(dateString);
-  const now: any = new Date();
-  const elapsedSeconds = Math.floor((now - date) / 1000);
-  if (elapsedSeconds < 60) {
-    return `${elapsedSeconds} seconds ago`;
-  } else if (elapsedSeconds < 3600) {
-    const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-    return `${elapsedMinutes} minute${elapsedMinutes > 1 ? "s" : ""} ago`;
-  } else if (elapsedSeconds < 86400) {
-    const elapsedHours = Math.floor(elapsedSeconds / 3600);
-    return `${elapsedHours} hour${elapsedHours > 1 ? "s" : ""} ago`;
-  } else {
-    const elapsedDays = Math.floor(elapsedSeconds / 86400);
-    return `${elapsedDays} day${elapsedDays > 1 ? "s" : ""} ago`;
-  }
-}
+import getTimeElapsedString from "@/utils/getTimeElapsedString";
 
 function NewsCarousel(props: any) {
   const articles = props.articles;
@@ -46,7 +29,7 @@ function NewsCarousel(props: any) {
       </Heading> */}
       <TickerTapeDisplay
         slidesInView={3}
-        iterationTime={90}
+        iterationTime={210}
         slideWidth={400}
         slideHeight={100}
       >
@@ -73,13 +56,10 @@ function NewsCarousel(props: any) {
                       </Box>
                       <Spacer />
                       <Box p={2}>
-                        {article.source && (
-                          <Text
-                            color={UseColorModeValue("pink.700", "blue.300")}
-                          >
-                            {article.source.Name}
-                          </Text>
-                        )}
+                        <Text color={UseColorModeValue("pink.700", "blue.300")}>
+                          {article.source.Name}
+                        </Text>
+
                         <Box
                           color={UseColorModeValue("purple.500", "purple.300")}
                           as="time"

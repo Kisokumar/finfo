@@ -6,6 +6,8 @@ import {
   Heading,
   Hide,
   IconButton,
+  LinkBox,
+  LinkOverlay,
   Spacer,
   Stack,
 } from "@chakra-ui/react";
@@ -75,7 +77,7 @@ export default function Simple() {
           </Hide>
           <Spacer />
           <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
+            <Stack direction={"row"}>
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>

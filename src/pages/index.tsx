@@ -4,6 +4,8 @@ import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import NewsCarousel from "@/components/homePage/NewsCarousel";
 import StockStatus from "@/components/homePage/StockStatus";
+import { fakeArticles } from "@/mocks/mockData";
+import { fakeMarketStatus } from "@/mocks/mockData";
 import fetchData from "@/utils/fetch";
 import shuffleArray from "@/utils/shuffleArray";
 
@@ -48,28 +50,15 @@ export async function getServerSideProps() {
     2
   );
   const realArticles = await fetchData(
-    "https://newsapi.org/v2/top-headlines?country=gb&category=business&apiKey=" +
+    "https://newsapi.org/v2/top-headlines?country=gb&category=business&pageSize=100&apiKey=" +
       process.env.ECONOMIC_NEWS_KEY,
     30
   );
 
-  // const fakeMarketStatus = {
-  //   afterHours: true,
-  //   currencies: { crypto: "open", fx: "open" },
-  //   earlyHours: true,
-  //   exchanges: {
-  //     nasdaq: "extended-hours",
-  //     nyse: "extended-hours",
-  //     otc: "extended-hours",
-  //   },
-  //   market: "extended-hours",
-  //   serverTime: "2023-02-16T06:48:14-05:00",
-  // };
-
   const marketStatus = realMarketStatus;
   const articles = realArticles;
-  shuffleArray(articles.articles);
 
+  // shuffleArray(articles.articles);
   return { props: { marketStatus, articles } };
   // return { props: { tickers, marketStatus } };
 }

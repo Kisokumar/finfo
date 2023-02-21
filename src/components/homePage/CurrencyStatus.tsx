@@ -1,15 +1,28 @@
-import { Card, Container, Heading, VStack } from "@chakra-ui/react";
+import { Card, Container, Heading, Spacer, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 import ErrorCard from "../ErrorCard";
 import React from "react";
 import Status from "./Status";
 import { UseColorModeValue } from "../Hooks";
+import getTimeElapsedNumber from "@/utils/getTimeElapsedNumber";
 
 export default function CurrencyStatus(props: any) {
+  const date: any = new Date(props.marketStatus.serverTime);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setElapsedTime((prevElapsedTime: any) => prevElapsedTime + 1000);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const timeLeft = getTimeElapsedNumber(elapsedTime);
   if (!("status" in props.marketStatus)) {
     const crypto = Status("Crypto", props.marketStatus.currencies.crypto);
     const forex = Status("Forex", props.marketStatus.currencies.fx);
-    const currencies = [crypto, forex];
+    const currencies: Array<JSX.Element> = [crypto, forex];
     return (
       <>
         <Card
@@ -20,7 +33,9 @@ export default function CurrencyStatus(props: any) {
           bg={UseColorModeValue("gray.200", "gray.900")}
           flexGrow={"1"}
         >
-          <Heading size={"md"}>Currency</Heading>
+          <Heading m={2} size={"md"}>
+            Currency
+          </Heading>
           <VStack gap={1}>
             <>
               {currencies.map((currency, idx) => {
@@ -41,6 +56,10 @@ export default function CurrencyStatus(props: any) {
               <Container my={4}></Container>
             </>
           </VStack>
+          <Spacer />
+          <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
+            Last updated: {timeLeft}
+          </Heading>
         </Card>
       </>
     );

@@ -1,3 +1,4 @@
+import ComingSoon from "@/components/ComingSoon";
 import Head from "next/head";
 import { Inter } from "@next/font/google";
 
@@ -15,7 +16,9 @@ export default function Stocks() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>Stocks</main>
+      <main>
+        <ComingSoon title={"Stocks"} />
+      </main>
     </>
   );
 }

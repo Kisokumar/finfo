@@ -1,11 +1,27 @@
-import { Card, Container, Heading, VStack } from "@chakra-ui/react";
+import { Card, Container, Heading, Spacer, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 import ErrorCard from "../ErrorCard";
 import React from "react";
 import Status from "./Status";
 import { UseColorModeValue } from "../Hooks";
+import { getMillisecondsSince } from "@/utils/getMillisecondsSince";
+import getTimeElapsedNumber from "@/utils/getTimeElapsedNumber";
 
 export default function StockStatus(props: any) {
+  const date: any = new Date(props.marketStatus.serverTime);
+  const [elapsedTime, setElapsedTime] = useState(getMillisecondsSince(date));
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setElapsedTime((prevElapsedTime: any) => prevElapsedTime + 1000);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const timeLeft = getTimeElapsedNumber(elapsedTime);
+
   if (!("status" in props.marketStatus)) {
     const nasdaq = Status("NASDAQ", props.marketStatus.exchanges.nasdaq);
     const otc = Status("OTC", props.marketStatus.exchanges.otc);
@@ -23,7 +39,9 @@ export default function StockStatus(props: any) {
         flexGrow={"1"}
       >
         <>
-          <Heading size={"md"}>Stocks</Heading>
+          <Heading m={2} size={"md"}>
+            Stocks
+          </Heading>
           <VStack gap={1}>
             {allMarkets.map((market, idx) => {
               return (
@@ -41,6 +59,10 @@ export default function StockStatus(props: any) {
               );
             })}
           </VStack>
+          <Spacer />
+          <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
+            Last updated: {timeLeft}
+          </Heading>
         </>
       </Card>
     );
