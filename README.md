@@ -6,7 +6,7 @@ Todo:
 
 # Components
 
-- [ ] Carousel
+- [x] Carousel
 
 - [x] NavBar
 

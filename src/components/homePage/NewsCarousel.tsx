@@ -57,9 +57,13 @@ function NewsCarousel(props: any) {
                       </Box>
                       <Spacer />
                       <Box p={2}>
-                        <Text color={UseColorModeValue("pink.700", "blue.300")}>
-                          {article.source.Name}
-                        </Text>
+                        {article.source.Name && (
+                          <Text
+                            color={UseColorModeValue("pink.700", "blue.300")}
+                          >
+                            {article.source.Name}
+                          </Text>
+                        )}
 
                         <Box
                           color={UseColorModeValue("purple.500", "purple.300")}

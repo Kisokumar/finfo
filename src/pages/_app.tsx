@@ -5,6 +5,7 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { AppProps } from "next/app";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Box h="calc(100vh)" w="calc(100vw)">
         <Nav />
         <Component {...pageProps} />
+        <Analytics />
         <Footer />
       </Box>
     </ChakraProvider>
