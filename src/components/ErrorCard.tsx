@@ -27,7 +27,7 @@ export default function ErrorCard(props: any) {
         >
           {props.message}
           <br />
-          Try again in one minute.
+          {props.secondMessage}
         </Container>
       </Card>
     </>

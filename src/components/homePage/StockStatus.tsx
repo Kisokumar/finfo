@@ -71,6 +71,7 @@ export default function StockStatus(props: any) {
       <ErrorCard
         title="Stocks"
         message="Stock exchange status is currently unavailable."
+        secondMessage="Try again in one minute."
       />
     );
   }
