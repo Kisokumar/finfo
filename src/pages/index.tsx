@@ -4,10 +4,18 @@ import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import NewsCarousel from "@/components/homePage/NewsCarousel";
 import StockStatus from "@/components/homePage/StockStatus";
+import dynamic from "next/dynamic";
 import { fakeArticles } from "@/mocks/mockData";
 import { fakeMarketStatus } from "@/mocks/mockData";
 import fetchData from "@/utils/fetch";
 import shuffleArray from "@/utils/shuffleArray";
+
+// const NewsCarousel = dynamic(
+//   () => import("@/components/homePage/NewsCarousel"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 export default function Home(props: any) {
   return (
@@ -24,7 +32,7 @@ export default function Home(props: any) {
       <main>
         <Flex direction={"column"} pt={["36px", "36px", "50px"]} pb={12}>
           <AfterHours marketStatus={props.marketStatus} />
-          <NewsCarousel articles={props.articles.articles} />
+          <NewsCarousel articles={props.articles} />
           <Flex
             display={"flex"}
             width={"100vw"}
@@ -56,7 +64,7 @@ export async function getServerSideProps() {
     30
   );
 
-  const marketStatus = fakeMarketStatus;
+  const marketStatus = realMarketStatus;
   const articles = realArticles;
 
   // shuffleArray(articles.articles);

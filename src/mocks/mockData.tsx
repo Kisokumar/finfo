@@ -19,10 +19,10 @@ export const fakeArticles = {
       title:
         "Households to enjoy cheaper energy bills this summer after £500 hike in April, experts warn... - The Sun",
       author: "Ashley Armstrong",
-      source: {
-        Id: null,
-        Name: "The Sun",
-      },
+      // source: {
+      //   Id: null,
+      //   Name: "The Sun",
+      // },
       publishedAt: "2023-02-20T21:21:09Z",
       url: "https://www.thesun.co.uk/money/21454190/households-face-rollercoaster-ride-energy-prices-increase-before-falling/",
     },

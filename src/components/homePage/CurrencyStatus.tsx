@@ -68,6 +68,7 @@ export default function CurrencyStatus(props: any) {
       <ErrorCard
         title="Currencies"
         message="Currency exchange status is currently unavailable."
+        secondMessage="Try again in one minute."
       />
     );
   }
