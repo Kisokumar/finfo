@@ -26,15 +26,15 @@ export default function CurrencyStatus(props: any) {
     return (
       <>
         <Card
-          mx={4}
           maxH={"100%"}
+          mx={4}
           mb={4}
           p={4}
           bg={UseColorModeValue("gray.200", "gray.900")}
           flexGrow={"1"}
         >
           <Heading m={2} size={"md"}>
-            Currency
+            Currency Markets
           </Heading>
           <VStack gap={1}>
             <>
@@ -57,9 +57,9 @@ export default function CurrencyStatus(props: any) {
             </>
           </VStack>
           <Spacer />
-          <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
+          {/* <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
             Last updated: {timeLeft}
-          </Heading>
+          </Heading> */}
         </Card>
       </>
     );

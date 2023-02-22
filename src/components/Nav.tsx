@@ -34,14 +34,26 @@ export default function Simple() {
 
   return (
     <>
-      <Box bg={UseColorModeValue("gray.100", "gray.900")} px={8}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+      <Box
+        bg={UseColorModeValue("gray.100", "gray.900")}
+        px={8}
+        position={"fixed"}
+        top={"0"}
+        width={"100%"}
+        zIndex={1}
+      >
+        <Flex
+          h={[12, 12, 16]}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
+            h={8}
           />
           <HStack spacing={8} alignItems={"center"}>
             <HStack
@@ -65,11 +77,11 @@ export default function Simple() {
           <Hide breakpoint="sm">
             <HStack alignItems={"center"} display={{ md: "none" }}>
               {isOpen ? (
-                <Heading as="h1" size="lg" noOfLines={1} marginX={7}>
+                <Heading as="h1" size="md" noOfLines={1} marginX={7}>
                   Categories
                 </Heading>
               ) : (
-                <Heading as="h1" size="lg" noOfLines={1} marginX={7}>
+                <Heading as="h1" size="md" noOfLines={1} marginX={7}>
                   Finfo
                 </Heading>
               )}
@@ -78,7 +90,7 @@ export default function Simple() {
           <Spacer />
           <Flex alignItems={"center"}>
             <Stack direction={"row"}>
-              <Button onClick={toggleColorMode}>
+              <Button h={8} onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
             </Stack>
@@ -97,7 +109,7 @@ export default function Simple() {
             right={0}
           >
             <Stack as={"nav"}>
-              <Box py={1}></Box>
+              <Box py={2}></Box>
               {Links.map((link) => (
                 <Box key={link.name}>
                   <Link

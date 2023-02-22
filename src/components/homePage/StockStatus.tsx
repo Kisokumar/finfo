@@ -40,7 +40,7 @@ export default function StockStatus(props: any) {
       >
         <>
           <Heading m={2} size={"md"}>
-            Stocks
+            Stock Markets
           </Heading>
           <VStack gap={1}>
             {allMarkets.map((market, idx) => {
@@ -60,9 +60,9 @@ export default function StockStatus(props: any) {
             })}
           </VStack>
           <Spacer />
-          <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
+          {/* <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
             Last updated: {timeLeft}
-          </Heading>
+          </Heading> */}
         </>
       </Card>
     );

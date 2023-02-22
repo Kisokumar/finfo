@@ -1,9 +1,12 @@
-import React, { Children, ReactNode } from "react";
+import React, { Children, ReactNode, use } from "react";
 
+import { Button } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useState } from "react";
 
 export default function TickerTapeDisplay(props: any) {
+  const [scrolling, setScrolling] = useState(false);
   const numberOfSlides = Children.count(props.children);
 
   const scrollAnimation = keyframes`
@@ -20,7 +23,7 @@ export default function TickerTapeDisplay(props: any) {
     justify-content: center;
     align-items: center;
 
-    overflow: hidden;
+    // overflow: hidden;
     width: calc((${props.slidesInView} / ${props.slideWidth}));
   `;
 
@@ -34,8 +37,9 @@ export default function TickerTapeDisplay(props: any) {
     width: ${props.slideWidth}px;
 
     &:hover {
-      * {
-        transform: translateY(-5px);
+      div {
+        transform: scale(1.02);
+        // transform: scale(1.02) translateY(-2px);
         transition-duration: 500ms;
       }
     }
@@ -57,6 +61,14 @@ export default function TickerTapeDisplay(props: any) {
 
   return (
     <>
+      {/* <Button
+        onClick={() => {
+          setScrolling(!scrolling);
+        }}
+      >
+        Hover Scroll Lock
+      </Button> */}
+
       <Carousel>
         <CarouselWrapper>
           {props.children.map((child: ReactNode, idx: number) => {

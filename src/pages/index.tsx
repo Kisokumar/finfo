@@ -22,17 +22,18 @@ export default function Home(props: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <AfterHours marketStatus={props.marketStatus} />
-        <NewsCarousel articles={props.articles.articles} />
-        <Flex
-          display={"flex"}
-          width={"100vw"}
-          direction={{ base: "column-reverse", md: "row" }}
-          px={4}
-          marginTop={4}
-        >
-          <CurrencyStatus marketStatus={props.marketStatus} />
-          <StockStatus marketStatus={props.marketStatus} />
+        <Flex direction={"column"} pt={["36px", "36px", "50px"]} pb={12}>
+          <AfterHours marketStatus={props.marketStatus} />
+          <NewsCarousel articles={props.articles.articles} />
+          <Flex
+            display={"flex"}
+            width={"100vw"}
+            direction={{ base: "column-reverse", md: "row" }}
+            px={4}
+          >
+            <CurrencyStatus marketStatus={props.marketStatus} />
+            <StockStatus marketStatus={props.marketStatus} />
+          </Flex>
         </Flex>
       </main>
     </>
@@ -55,7 +56,7 @@ export async function getServerSideProps() {
     30
   );
 
-  const marketStatus = realMarketStatus;
+  const marketStatus = fakeMarketStatus;
   const articles = realArticles;
 
   // shuffleArray(articles.articles);

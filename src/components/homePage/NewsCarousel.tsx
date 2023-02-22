@@ -23,19 +23,20 @@ function NewsCarousel(props: any) {
       //   mt={8}
       rounded={"lg"}
       //   bg={UseColorModeValue("gray.200", "gray.900")}
+      mb={4}
     >
       {/* <Heading p={4} pl={4} size={"md"}>
         News
       </Heading> */}
       <TickerTapeDisplay
         slidesInView={3}
-        iterationTime={210}
-        slideWidth={400}
+        iterationTime={190}
+        slideWidth={350}
         slideHeight={100}
       >
         {articles.map((article: any, idx: number) => {
           return (
-            <LinkBox key={idx} as="article" rounded="md" my={8} width={"100%"}>
+            <LinkBox key={idx} as="article" rounded="md" mt={4} width={"100%"}>
               <LinkOverlay href={article.url} isExternal={true}>
                 <Flex flexDir={"column"} flexGrow={"1"} h={200}>
                   <Card
