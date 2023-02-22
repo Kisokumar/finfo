@@ -121,6 +121,7 @@ function NewsCarousel(props: any) {
             } else {
               return (
                 <ErrorCard
+                  key="Article Error"
                   title="Article Error"
                   message="This article is unavailable."
                   secondMessage="Try again later."
