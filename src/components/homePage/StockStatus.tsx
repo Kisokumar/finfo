@@ -1,27 +1,16 @@
 import { Card, Container, Heading, Spacer, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 
 import ErrorCard from "../ErrorCard";
 import React from "react";
 import Status from "./Status";
 import { UseColorModeValue } from "../Hooks";
-import { getMillisecondsSince } from "@/utils/getMillisecondsSince";
-import getTimeElapsedNumber from "@/utils/getTimeElapsedNumber";
+import dynamic from "next/dynamic";
+
+const TimeLeft = dynamic(() => import("../TimeLeft"), {
+  ssr: false,
+});
 
 export default function StockStatus(props: any) {
-  const date: any = new Date(props.marketStatus.serverTime);
-  const [elapsedTime, setElapsedTime] = useState(getMillisecondsSince(date));
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setElapsedTime((prevElapsedTime: any) => prevElapsedTime + 1000);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const timeLeft = getTimeElapsedNumber(elapsedTime);
-
   if (!("status" in props.marketStatus)) {
     const nasdaq = Status("NASDAQ", props.marketStatus.exchanges.nasdaq);
     const otc = Status("OTC", props.marketStatus.exchanges.otc);
@@ -33,6 +22,8 @@ export default function StockStatus(props: any) {
       <Card
         mx={4}
         maxH={"100%"}
+        maxW={"xl"}
+        my={2}
         mb={4}
         p={4}
         bg={UseColorModeValue("gray.200", "gray.900")}
@@ -48,9 +39,9 @@ export default function StockStatus(props: any) {
                 <Container
                   key={idx}
                   bg={UseColorModeValue("white", "gray.800")}
-                  paddingX={4}
-                  paddingY={2}
-                  marginTop={2}
+                  px={4}
+                  py={2}
+                  mt={2}
                   rounded="lg"
                   maxW={"100%"}
                 >
@@ -60,9 +51,7 @@ export default function StockStatus(props: any) {
             })}
           </VStack>
           <Spacer />
-          {/* <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
-            Last updated: {timeLeft}
-          </Heading> */}
+          <TimeLeft time={props.marketStatus.serverTime} />
         </>
       </Card>
     );
@@ -71,7 +60,7 @@ export default function StockStatus(props: any) {
       <ErrorCard
         title="Stocks"
         message="Stock exchange status is currently unavailable."
-        secondMessage="Try again in one minute."
+        secondmessage="Try again in one minute."
       />
     );
   }

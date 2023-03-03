@@ -1,24 +1,16 @@
 import { Card, Container, Heading, Spacer, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 
 import ErrorCard from "../ErrorCard";
 import React from "react";
 import Status from "./Status";
 import { UseColorModeValue } from "../Hooks";
-import getTimeElapsedNumber from "@/utils/getTimeElapsedNumber";
+import dynamic from "next/dynamic";
+
+const TimeLeft = dynamic(() => import("../TimeLeft"), {
+  ssr: false,
+});
 
 export default function CurrencyStatus(props: any) {
-  const date: any = new Date(props.marketStatus.serverTime);
-  const [elapsedTime, setElapsedTime] = useState(0);
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setElapsedTime((prevElapsedTime: any) => prevElapsedTime + 1000);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const timeLeft = getTimeElapsedNumber(elapsedTime);
   if (!("status" in props.marketStatus)) {
     const crypto = Status("Crypto", props.marketStatus.currencies.crypto);
     const forex = Status("Forex", props.marketStatus.currencies.fx);
@@ -26,8 +18,10 @@ export default function CurrencyStatus(props: any) {
     return (
       <>
         <Card
-          maxH={"100%"}
           mx={4}
+          maxH={"100%"}
+          maxW={"xl"}
+          my={2}
           mb={4}
           p={4}
           bg={UseColorModeValue("gray.200", "gray.900")}
@@ -43,9 +37,9 @@ export default function CurrencyStatus(props: any) {
                   <Container
                     key={idx}
                     bg={UseColorModeValue("white", "gray.800")}
-                    paddingX={4}
-                    paddingY={2}
-                    marginTop={2}
+                    px={4}
+                    py={2}
+                    mt={2}
                     rounded="lg"
                     maxW={"100%"}
                   >
@@ -53,13 +47,10 @@ export default function CurrencyStatus(props: any) {
                   </Container>
                 );
               })}
-              <Container my={4}></Container>
             </>
           </VStack>
           <Spacer />
-          {/* <Heading mx={2} mt={8} mb={2} size={"xs"} w={"xs"}>
-            Last updated: {timeLeft}
-          </Heading> */}
+          <TimeLeft time={props.marketStatus.serverTime} />
         </Card>
       </>
     );
@@ -68,7 +59,7 @@ export default function CurrencyStatus(props: any) {
       <ErrorCard
         title="Currencies"
         message="Currency exchange status is currently unavailable."
-        secondMessage="Try again in one minute."
+        secondmessage="Try again in one minute."
       />
     );
   }

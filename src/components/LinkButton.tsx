@@ -7,30 +7,33 @@ export const LinkButton = ({
   href,
   children,
   label,
+  newTab,
 }: {
   href: string;
   children: ReactNode;
   label: string;
+  newTab: boolean;
 }) => {
   return (
-    <Box
-      bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
-      rounded={"lg"}
-      padding={4}
-      marginX={2}
-      h={8}
-      cursor={"pointer"}
-      display={"inline-flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      transition={"background 0.3s ease"}
-      _hover={{
-        bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
-      }}
-    >
-      <Link href={href}>{children}</Link>
-      <VisuallyHidden>{label}</VisuallyHidden>
-    </Box>
+    <Link href={href} target={newTab ? "_blank" : ""}>
+      <Box
+        bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+        rounded={"lg"}
+        p={4}
+        h={8}
+        cursor={"pointer"}
+        display={"inline-flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        transition={"background 0.3s ease"}
+        _hover={{
+          bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+        }}
+      >
+        {children}
+        <VisuallyHidden>{label}</VisuallyHidden>
+      </Box>
+    </Link>
   );
 };
 

@@ -23,39 +23,42 @@ function NewsCarousel(props: any) {
     const articles = props.articles.articles;
     lowerCaseKeys(articles);
     return (
-      <Box
+      <Flex
         //   px={8}
         //   m={8}
-        //   mt={8}
         rounded={"lg"}
-        //   bg={UseColorModeValue("gray.200", "gray.900")}
-        mb={4}
+        // bg={UseColorModeValue("gray.200", "gray.900")}
+        direction={"column"}
+        // my={2}
       >
-        {/* <Heading p={4} pl={4} size={"md"}>
-        News
-      </Heading> */}
+        {/* <Flex
+          m={8}
+          mt={4}
+          maxW={"2lg"}
+          rounded={"lg"}
+          bg={UseColorModeValue("gray.200", "gray.900")}
+          mb={0}
+          alignSelf={"center"}
+        >
+          <Heading p={4} pl={4} size={"md"}>
+            News Articles
+          </Heading>
+        </Flex> */}
+
         <TickerTapeDisplay
           slidesInView={3}
-          iterationTime={190}
-          slideWidth={350}
-          slideHeight={100}
+          iterationTime={340}
+          slideWidth={[280, 300, 350]}
         >
           {articles.map((article: any, idx: number) => {
             if (hasKeys(article, ["title", "publishedAt", "source"])) {
               return (
-                <LinkBox
-                  key={idx}
-                  as="article"
-                  rounded="md"
-                  mt={4}
-                  width={"100%"}
-                >
+                <LinkBox key={idx} as="article" rounded="md" width={"100%"}>
                   <LinkOverlay href={article.url} isExternal={true}>
-                    <Flex flexDir={"column"} flexGrow={"1"} h={200}>
+                    <Flex flexDir={"column"} flexGrow={"1"} h={[240, 200, 200]}>
                       <Card
                         maxH={"100%"}
                         p={4}
-                        // bg={UseColorModeValue("white", "gray.800")}
                         bg={UseColorModeValue("gray.200", "gray.900")}
                         flexGrow={"1"}
                       >
@@ -74,21 +77,28 @@ function NewsCarousel(props: any) {
                               <Text
                                 as={"span"}
                                 color={UseColorModeValue(
-                                  "pink.700",
+                                  "blue.600",
                                   "blue.300"
                                 )}
                               >
                                 {article.source.name}
                                 {article.author && !isUrl(article.author) && (
                                   <>
-                                    <Text as={"span"} color={"white"}>
+                                    <Text
+                                      as={"span"}
+                                      color={UseColorModeValue(
+                                        "black",
+                                        "white"
+                                      )}
+                                    >
                                       {" "}
                                       -{" "}
                                     </Text>
                                     <Text
+                                      fontWeight={"bold"}
                                       as={"span"}
                                       color={UseColorModeValue(
-                                        "pink.700",
+                                        "blue.700",
                                         "green.400"
                                       )}
                                     >
@@ -107,7 +117,9 @@ function NewsCarousel(props: any) {
                               as="time"
                               dateTime={article.publishedAt}
                             >
-                              <Text>
+                              <Text
+                              // fontWeight={"bold"}
+                              >
                                 {getTimeElapsedString(article.publishedAt)}
                               </Text>
                             </Box>
@@ -124,17 +136,17 @@ function NewsCarousel(props: any) {
                   key="Article Error"
                   title="Article Error"
                   message="This article is unavailable."
-                  secondMessage="Try again later."
+                  secondmessage="Try again later."
                 />
               );
             }
           })}
         </TickerTapeDisplay>
-      </Box>
+      </Flex>
     );
   } else {
     return (
-      <Box mx={4} mt={8}>
+      <Box mx={4} my={2}>
         <ErrorCard
           title="News Carousel"
           message="The news carousel is currently unavailable."

@@ -17,17 +17,6 @@ export const fakeArticles = {
   articles: [
     {
       title:
-        "Households to enjoy cheaper energy bills this summer after £500 hike in April, experts warn... - The Sun",
-      author: "Ashley Armstrong",
-      // source: {
-      //   Id: null,
-      //   Name: "The Sun",
-      // },
-      publishedAt: "2023-02-20T21:21:09Z",
-      url: "https://www.thesun.co.uk/money/21454190/households-face-rollercoaster-ride-energy-prices-increase-before-falling/",
-    },
-    {
-      title:
         "New Volkswagen ID.2: first look at budget EV crossover - AutoExpress",
       author: "Alastair Crooks",
       source: {
@@ -68,6 +57,17 @@ export const fakeArticles = {
       },
       publishedAt: "2023-02-20T18:50:58Z",
       url: "https://www.manchestereveningnews.co.uk/news/uk-news/iceland-begin-closing-stores-across-26287177",
+    },
+    {
+      title:
+        "Households to enjoy cheaper energy bills this summer after £500 hike in April, experts warn... - The Sun",
+      author: "Ashley Armstrong",
+      // source: {
+      //   Id: null,
+      //   Name: "The Sun",
+      // },
+      publishedAt: "2023-02-20T21:21:09Z",
+      url: "https://www.thesun.co.uk/money/21454190/households-face-rollercoaster-ride-energy-prices-increase-before-falling/",
     },
     {
       title:

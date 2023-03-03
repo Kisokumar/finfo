@@ -5,10 +5,13 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 
-import { Analytics } from "@vercel/analytics/react";
+// import { Analytics } from "@vercel/analytics/react";
 import type { AppProps } from "next/app";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
+import React from "react";
+
+// import React, { createContext, useState } from "react";
 
 const colors = {
   brand: {
@@ -30,15 +33,21 @@ const config: ThemeConfig = {
 
 const theme = extendTheme({ config, colors });
 
+// const AppInfoContext = createContext(null);
+
 export default function App({ Component, pageProps }: AppProps) {
+  // const [appInfo, setAppInfo] = useState(null);
+  // setAppInfo(null);
   return (
     <ChakraProvider theme={theme}>
+      {/* <AppInfoContext.Provider value={appInfo}> */}
       <Box h="calc(100vh)" w="calc(100vw)">
         <Nav />
         <Component {...pageProps} />
-        <Analytics />
+        {/* <Analytics /> */}
         <Footer />
       </Box>
+      {/* </AppInfoContext.Provider> */}
     </ChakraProvider>
   );
 }

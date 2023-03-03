@@ -6,8 +6,6 @@ import {
   Heading,
   Hide,
   IconButton,
-  LinkBox,
-  LinkOverlay,
   Spacer,
   Stack,
 } from "@chakra-ui/react";
@@ -19,14 +17,14 @@ import { LinkButton } from "./LinkButton";
 
 const Links = [
   { name: "Home", link: "/" },
-  { name: "Stocks", link: "/stocks" },
-  { name: "Economy", link: "/economy" },
-  { name: "Crypto", link: "/crypto" },
-  { name: "Forex", link: "/forex" },
   { name: "News", link: "/news" },
+  { name: "Stocks", link: "/stocks" },
+  { name: "Forex", link: "/forex" },
+  // { name: "Economy", link: "/economy" },
+  // { name: "Crypto", link: "/crypto" },
 ];
 
-export default function Simple() {
+export default function Nav() {
   const { isOpen, onOpen, onClose } = UseDisclosure();
   const { colorMode, toggleColorMode } = UseColorMode();
   const bg = UseColorModeValue("gray.900", "gray.900");
@@ -36,7 +34,7 @@ export default function Simple() {
     <>
       <Box
         bg={UseColorModeValue("gray.100", "gray.900")}
-        px={8}
+        pl={8}
         position={"fixed"}
         top={"0"}
         width={"100%"}
@@ -61,13 +59,19 @@ export default function Simple() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              <LinkButton label="home" href="/">
-                <Heading as="h1" size="1xl" noOfLines={1} marginX={7}>
+              <LinkButton label="home" href="/" newTab={false}>
+                <Heading as="h1" size="1xl" noOfLines={1} mx={7}>
                   Finfo
                 </Heading>
               </LinkButton>
+
               {Links.map((link) => (
-                <LinkButton label={link.name} href={link.link} key={link.name}>
+                <LinkButton
+                  label={link.name}
+                  href={link.link}
+                  key={link.name}
+                  newTab={false}
+                >
                   {link.name}
                 </LinkButton>
               ))}
@@ -77,20 +81,54 @@ export default function Simple() {
           <Hide breakpoint="sm">
             <HStack alignItems={"center"} display={{ md: "none" }}>
               {isOpen ? (
-                <Heading as="h1" size="md" noOfLines={1} marginX={7}>
+                <Heading as="h1" size="md" noOfLines={1} mx={7}>
                   Categories
                 </Heading>
               ) : (
-                <Heading as="h1" size="md" noOfLines={1} marginX={7}>
-                  Finfo
-                </Heading>
+                <>
+                  <Heading as="h1" size="md" noOfLines={1} mx={7}>
+                    Finfo
+                  </Heading>
+                  {/* {props.PROD_MODE === true ? (
+                    <>
+                      <Heading as="h1" size="md" noOfLines={1} mx={7}>
+                        Finfo
+                      </Heading>
+                    </>
+                  ) : (
+                    <>
+                      <InfoPopover
+                        buttonHeight={8}
+                        buttonLabel={"Finfo - Dev Mode"}
+                        title={"All information seen is mock data!"}
+                      >
+                        <LinkButton
+                          href={"https://www.finfo.live/"}
+                          label={"Visit prod mode"}
+                          newTab={true}
+                        >
+                          Visit Prod Mode Here!
+                        </LinkButton>
+                      </InfoPopover>
+                    </>
+                  )} */}
+                </>
               )}
             </HStack>
           </Hide>
           <Spacer />
           <Flex alignItems={"center"}>
             <Stack direction={"row"}>
-              <Button h={8} onClick={toggleColorMode}>
+              <Button
+                aria-label={
+                  colorMode === "light"
+                    ? "Dark mode toggle"
+                    : "Light mode toggle"
+                }
+                h={8}
+                mr={8}
+                onClick={toggleColorMode}
+              >
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
             </Stack>
@@ -135,6 +173,7 @@ export default function Simple() {
           </Box>
         ) : null}
       </Box>
+      <Box m={5}></Box>
     </>
   );
 }

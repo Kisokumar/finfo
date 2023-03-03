@@ -1,12 +1,12 @@
-import React, { Children, ReactNode, use } from "react";
+import { Flex, useBreakpointValue } from "@chakra-ui/react";
+import React, { Children, ReactNode } from "react";
 
-import { Button } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState } from "react";
 
 export default function TickerTapeDisplay(props: any) {
-  const [scrolling, setScrolling] = useState(false);
+  const width = useBreakpointValue(props.slideWidth);
+
   const numberOfSlides = Children.count(props.children);
 
   const scrollAnimation = keyframes`
@@ -14,7 +14,7 @@ export default function TickerTapeDisplay(props: any) {
       transform: translateX(0);
     }
     100% {
-      transform: translateX(calc(${props.slideWidth}px * ${numberOfSlides} * -1));
+      transform: translateX(calc(${width}px * ${numberOfSlides} * -1));
     }
   `;
 
@@ -24,23 +24,23 @@ export default function TickerTapeDisplay(props: any) {
     align-items: center;
 
     // overflow: hidden;
-    width: calc((${props.slidesInView} / ${props.slideWidth}));
+    width: calc((${props.slidesInView} / ${width}));
   `;
 
   const CarouselSlide = styled.div`
-    animation: ${scrollAnimation} ${props.iterationTime}s infinite;
+    animation: ${scrollAnimation} ${props.iterationTime}s infinite linear;
     display: flex;
     flex-direction: column;
-
-    margin: 0px 10px;
+    margin: 10px 10px;
     flex: 0 0 auto;
-    width: ${props.slideWidth}px;
+    width: ${width}px;
 
-    &:hover {
-      div {
-        transform: scale(1.02);
-        // transform: scale(1.02) translateY(-2px);
-        transition-duration: 500ms;
+    @media (hover: hover) {
+      &:hover {
+        div {
+          transform: scale(1.02);
+          transition-duration: 500ms;
+        }
       }
     }
   `;
@@ -52,39 +52,44 @@ export default function TickerTapeDisplay(props: any) {
     justify-content: center;
     align-items: center;
     width: calc(2 * ${numberOfSlides});
+
     &:hover {
+      .carouselSlides {
+        background-color: rgba(45, 0, 23, 0.2);
+      }
       .slide {
         animation-play-state: paused;
+      }
+    }
+    @media (hover: hover) {
+      &:hover {
+        .carouselSlides {
+          background-color: transparent;
+        }
       }
     }
   `;
 
   return (
     <>
-      {/* <Button
-        onClick={() => {
-          setScrolling(!scrolling);
-        }}
-      >
-        Hover Scroll Lock
-      </Button> */}
-
       <Carousel>
-        <CarouselWrapper>
-          {props.children.map((child: ReactNode, idx: number) => {
-            return (
-              <CarouselSlide className="slide" key={idx}>
-                {child}
-              </CarouselSlide>
-            );
-          })}
-          {props.children.map((child: ReactNode, idx: number) => {
-            return (
-              <CarouselSlide className="slide" key={idx}>
-                {child}
-              </CarouselSlide>
-            );
-          })}
+        <CarouselWrapper className="carouselSlides">
+          <Flex dir="column">
+            {props.children.map((child: ReactNode, idx: number) => {
+              return (
+                <CarouselSlide className="slide" key={idx}>
+                  {child}
+                </CarouselSlide>
+              );
+            })}
+            {props.children.map((child: ReactNode, idx: number) => {
+              return (
+                <CarouselSlide className="slide" key={idx}>
+                  {child}
+                </CarouselSlide>
+              );
+            })}
+          </Flex>
         </CarouselWrapper>
       </Carousel>
     </>

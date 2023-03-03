@@ -1,9 +1,9 @@
-import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 import Image from "next/image";
 import React from "react";
 
-export default function Error(props: any) {
+export default function Error() {
   return (
     <Flex direction="column" alignItems="center" mt={"100px"}>
       <Heading size="2xl" mb={8}>

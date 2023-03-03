@@ -28,7 +28,10 @@ export default function SmallCentered() {
           justify={{ base: "center", md: "space-between", sm: "space-between" }}
           align={{ base: "center", md: "center" }}
         >
-          <Text fontSize={"xs"}>© 2023 Finfo. All rights reserved</Text>
+          {/* <Text fontSize={"xs"}>© 2023 Finfo. All rights reserved</Text> */}
+          <Text fontSize={"xs"}>
+            © 2022 Kisho Makes Stuff. All Rights Reserved.
+          </Text>
           {/* <Stack direction={"row"} spacing={6}>
             <LinkButton label={"Twitter"} href={"#"}>
               <FaTwitter />
