@@ -1,8 +1,6 @@
 import { Box, Container, Stack, Text } from "@chakra-ui/react";
 
-import { UseColorModeValue } from "./Hooks";
-
-// import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { UseColorModeValue } from "../Hooks";
 
 export default function SmallCentered() {
   return (

@@ -1,8 +1,16 @@
 import { Card, Heading } from "@chakra-ui/react";
 
 import React from "react";
-import { UseColorModeValue } from "./Hooks";
+import { UseColorModeValue } from "../Hooks";
 
+/**
+ * Returns child components wrapped inside styled card
+ *
+ * @param {object} props - The component props.
+ * @param {string} props.heading - Title
+ * @param {string} props.children - children to render in card
+ * @returns {JSX.Element}
+ */
 export default function DisplayCard(props: any) {
   return (
     <Card

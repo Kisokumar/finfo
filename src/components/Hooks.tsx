@@ -1,4 +1,5 @@
 import {
+  useBreakpointValue,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -7,3 +8,4 @@ import {
 export const UseColorModeValue = useColorModeValue;
 export const UseColorMode = useColorMode;
 export const UseDisclosure = useDisclosure;
+export const UseBreakpointValue = useBreakpointValue;

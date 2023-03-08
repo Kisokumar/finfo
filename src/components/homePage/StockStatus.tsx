@@ -1,12 +1,12 @@
 import { Card, Container, Heading, Spacer, VStack } from "@chakra-ui/react";
 
-import ErrorCard from "../ErrorCard";
+import ErrorCard from "../reusable/ErrorCard";
 import React from "react";
 import Status from "./Status";
 import { UseColorModeValue } from "../Hooks";
 import dynamic from "next/dynamic";
 
-const TimeLeft = dynamic(() => import("../TimeLeft"), {
+const TimeLeft = dynamic(() => import("../reusable/TimeLeft"), {
   ssr: false,
 });
 

@@ -1,4 +1,11 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+} from "@chakra-ui/react";
+import {
   Box,
   Card,
   Flex,
@@ -7,21 +14,23 @@ import {
   LinkBox,
   LinkOverlay,
   Spacer,
-  Text,
 } from "@chakra-ui/react";
 
-import ErrorCard from "../ErrorCard";
+import DelayedTransition from "../reusable/DelayedTransition";
+import ErrorCard from "../reusable/ErrorCard";
+import PublisherDetails from "./PublisherDetails";
 import React from "react";
 import { SimpleGrid } from "@chakra-ui/react";
+import { UseBreakpointValue } from "../Hooks";
 import { UseColorModeValue } from "../Hooks";
-import extractName from "@/utils/extractName";
-import getTimeElapsedString from "@/utils/getTimeElapsedString";
+import extractArticleInfo from "@/utils/extractArticleInfo";
 import hasKeys from "@/utils/hasKeys";
-import isUrl from "@/utils/isUrl";
 import lowerCaseKeys from "@/utils/lowercaseKeys";
+import reorderArticlesByDate from "@/utils/reorderArticlesByDate";
 
 export default function NewsQuery(props: any) {
-  const articles = props.articles.articles;
+  const unOrderedArticles = props.articles;
+  const articles = reorderArticlesByDate(unOrderedArticles);
 
   lowerCaseKeys(articles);
   return (
@@ -29,41 +38,52 @@ export default function NewsQuery(props: any) {
       <div>
         {props.query !== undefined ? (
           <>
-            <Flex
-              p={4}
-              mx={4}
-              direction={["column", "row", "row"]}
-              mb={8}
-              bg={UseColorModeValue("gray.200", "gray.900")}
-              rounded={"lg"}
-              justifyContent={["flex-start", "space-between", "space-between"]}
+            <DelayedTransition
+              startY={-50}
+              duration={0.5}
+              delay={0.4}
+              refresh={true}
             >
-              <Heading pb={[8, 0, 0]} size={"sm"}>
-                Searching for: {props.query}
-              </Heading>
-              <Heading size={"sm"}>Results: {articles.length}</Heading>
-            </Flex>
+              <Flex
+                p={4}
+                mx={4}
+                direction={["column", "row", "row"]}
+                mb={8}
+                bg={UseColorModeValue("gray.200", "gray.900")}
+                rounded={"lg"}
+                justifyContent={[
+                  "flex-start",
+                  "space-between",
+                  "space-between",
+                ]}
+              >
+                <Heading pb={[8, 0, 0]} size={"sm"}>
+                  Searching for: {props.query}
+                </Heading>
+                <Heading ml={40} size={"sm"}>
+                  Results: {articles.length}
+                </Heading>
+              </Flex>
+            </DelayedTransition>
           </>
         ) : (
           <></>
         )}
-        <SimpleGrid
-          columns={[1, 2, 3]}
-          gap={[4, 4, 8]}
-          px={4}
-          // pb={["50px", "36px", "50px"]}
-          pb={"70px"}
-        >
-          {articles.map((article: any, idx: number) => {
-            if (hasKeys(article, ["title", "publishedAt", "source"])) {
-              return (
-                <GridItem key={idx} w="100%">
-                  <LinkBox key={idx} as="article" rounded="md" width={"100%"}>
-                    <LinkOverlay href={article.url} isExternal={true}>
+        <SimpleGrid columns={[1, 2, 3]} gap={[4, 4, 8]} px={4} pb={"70px"}>
+          <DelayedTransition
+            startX={UseBreakpointValue([200, 200, 400])}
+            duration={0.4}
+            delay={UseBreakpointValue([0.35, 0.15, 0.15])}
+            refresh={true}
+          >
+            {articles.map((article: any, idx: number) => {
+              if (hasKeys(article, ["title", "pubDate"])) {
+                return (
+                  <GridItem key={idx} w="100%">
+                    <LinkBox key={idx} as="article" rounded="md" width={"100%"}>
                       <Flex
                         flexDir={"column"}
                         flexGrow={"1"}
-                        // h={[240, 200, 200]}
                         maxH={400}
                         minH={220}
                       >
@@ -74,86 +94,82 @@ export default function NewsQuery(props: any) {
                           flexGrow={"1"}
                         >
                           <>
-                            <Box
-                              bg={UseColorModeValue("white", "gray.800")}
-                              rounded="lg"
-                              p={2}
-                              h={"max"}
-                            >
-                              <Heading size={"sm"}>{article.title}</Heading>
+                            <Box minH={100} maxH={160}>
+                              <LinkOverlay
+                                href={article.link}
+                                isExternal={true}
+                                _hover={{ color: "blue.300" }}
+                              >
+                                <Box
+                                  bg={UseColorModeValue("white", "gray.800")}
+                                  rounded="lg"
+                                  p={2}
+                                  h={"max"}
+                                >
+                                  <Heading size={"sm"}>
+                                    {extractArticleInfo(article.title)[0]}
+                                  </Heading>
+                                </Box>
+                              </LinkOverlay>
                             </Box>
                             <Spacer />
-                            <Box p={2}>
-                              {article.source.name && (
-                                <Text
-                                  as={"span"}
-                                  color={UseColorModeValue(
-                                    "blue.600",
-                                    "blue.300"
-                                  )}
-                                >
-                                  {article.source.name}
-                                  {article.author && !isUrl(article.author) && (
-                                    <>
-                                      <Text
-                                        as={"span"}
-                                        color={UseColorModeValue(
-                                          "black",
-                                          "white"
-                                        )}
+                            <Accordion
+                              allowToggle
+                              bg={UseColorModeValue("white", "gray.800")}
+                              rounded={"lg"}
+                              py={2}
+                            >
+                              <LinkBox>
+                                <AccordionItem borderColor={"transparent"}>
+                                  <Box rounded="lg">
+                                    <h2>
+                                      <Flex
+                                        maxH={10}
+                                        justifyContent={"space-between"}
+                                        dir={"row"}
                                       >
-                                        {" "}
-                                        -{" "}
-                                      </Text>
-                                      <Text
-                                        fontWeight={"bold"}
-                                        as={"span"}
-                                        color={UseColorModeValue(
-                                          "blue.700",
-                                          "green.500"
-                                        )}
-                                      >
-                                        {extractName(article.author)}
-                                      </Text>
-                                    </>
-                                  )}
-                                </Text>
-                              )}
+                                        <AccordionButton>
+                                          <PublisherDetails article={article} />
+                                          <Spacer />
+                                          <Flex align={"center"}>
+                                            <Box>More</Box>
+                                            <AccordionIcon />
+                                          </Flex>
+                                        </AccordionButton>
+                                      </Flex>
+                                    </h2>
+                                  </Box>
 
-                              <Box
-                                h={20}
-                                color={UseColorModeValue(
-                                  "purple.500",
-                                  "purple.300"
-                                )}
-                                as="time"
-                                dateTime={article.publishedAt}
-                              >
-                                <Text
-                                // fontWeight={"bold"}
-                                >
-                                  {getTimeElapsedString(article.publishedAt)}
-                                </Text>
-                              </Box>
-                            </Box>
+                                  <AccordionPanel px={6}>
+                                    <Box maxH={200} overflow={"scroll"}>
+                                      <Box
+                                        dangerouslySetInnerHTML={{
+                                          __html: article.content,
+                                        }}
+                                      ></Box>
+                                    </Box>
+                                  </AccordionPanel>
+                                </AccordionItem>
+                              </LinkBox>
+                            </Accordion>
                           </>
                         </Card>
                       </Flex>
-                    </LinkOverlay>
-                  </LinkBox>
-                </GridItem>
-              );
-            } else {
-              return (
-                <ErrorCard
-                  key="Article Error"
-                  title="Article Error"
-                  message="This article is unavailable."
-                  secondmessage="Try again later."
-                />
-              );
-            }
-          })}
+                    </LinkBox>
+                  </GridItem>
+                );
+              } else {
+                return (
+                  <ErrorCard
+                    key="Article Error"
+                    title="Article Error"
+                    message="This article is unavailable."
+                    secondmessage="Try again later."
+                  />
+                );
+              }
+            })}
+          </DelayedTransition>
         </SimpleGrid>
       </div>
     </>

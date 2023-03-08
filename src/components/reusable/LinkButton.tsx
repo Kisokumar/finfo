@@ -36,11 +36,3 @@ export const LinkButton = ({
     </Link>
   );
 };
-
-//     <chakra.button
-//       as={"a"}
-//       href={href}
-//     >
-//       <VisuallyHidden>{label}</VisuallyHidden>
-//       {children}
-//     </chakra.button>

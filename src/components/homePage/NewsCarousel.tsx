@@ -9,52 +9,38 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import ErrorCard from "../ErrorCard";
+import ErrorCard from "../reusable/ErrorCard";
 import React from "react";
-import TickerTapeDisplay from "../TickerTapeDisplay";
+import TickerTapeDisplay from "../reusable/TickerTapeDisplay";
 import { UseColorModeValue } from "../Hooks";
+import extractArticleInfo from "@/utils/extractArticleInfo";
 import getTimeElapsedString from "@/utils/getTimeElapsedString";
 import hasKeys from "@/utils/hasKeys";
-import isUrl from "@/utils/isUrl";
 import lowerCaseKeys from "@/utils/lowercaseKeys";
 
-function NewsCarousel(props: any) {
-  if (props.articles.status === "ok") {
-    const articles = props.articles.articles;
+/**
+ * Uses TickerTapeDisplay to scroll horizontally through news articles (seen on homepage)
+ *
+ * @param {object} props - The component props.
+ * @param {string} props.articles - object with articles returned fro api (also includes props.articles.status)
+ * @returns {JSX.Element}
+ */
+function NewsCarousel(props: any): JSX.Element {
+  if (props.articles) {
+    const articles = props.articles;
     lowerCaseKeys(articles);
     return (
-      <Flex
-        //   px={8}
-        //   m={8}
-        rounded={"lg"}
-        // bg={UseColorModeValue("gray.200", "gray.900")}
-        direction={"column"}
-        // my={2}
-      >
-        {/* <Flex
-          m={8}
-          mt={4}
-          maxW={"2lg"}
-          rounded={"lg"}
-          bg={UseColorModeValue("gray.200", "gray.900")}
-          mb={0}
-          alignSelf={"center"}
-        >
-          <Heading p={4} pl={4} size={"md"}>
-            News Articles
-          </Heading>
-        </Flex> */}
-
+      <Flex rounded={"lg"} direction={"column"}>
         <TickerTapeDisplay
           slidesInView={3}
           iterationTime={340}
           slideWidth={[280, 300, 350]}
         >
           {articles.map((article: any, idx: number) => {
-            if (hasKeys(article, ["title", "publishedAt", "source"])) {
+            if (hasKeys(article, ["title", "pubDate"])) {
               return (
                 <LinkBox key={idx} as="article" rounded="md" width={"100%"}>
-                  <LinkOverlay href={article.url} isExternal={true}>
+                  <LinkOverlay href={article.link} isExternal={true}>
                     <Flex flexDir={"column"} flexGrow={"1"} h={[240, 200, 200]}>
                       <Card
                         maxH={"100%"}
@@ -72,58 +58,37 @@ function NewsCarousel(props: any) {
                             <Heading size={"sm"}>{article.title}</Heading>
                           </Box>
                           <Spacer />
-                          <Box p={2}>
-                            {article.source.name && (
+                          <Box pb={1}>
+                            {article.title && (
                               <Text
-                                as={"span"}
+                                maxW={60}
+                                maxH={5}
+                                overflow={"hidden"}
                                 color={UseColorModeValue(
                                   "blue.600",
                                   "blue.300"
                                 )}
                               >
-                                {article.source.name}
-                                {article.author && !isUrl(article.author) && (
-                                  <>
-                                    <Text
-                                      as={"span"}
-                                      color={UseColorModeValue(
-                                        "black",
-                                        "white"
-                                      )}
-                                    >
-                                      {" "}
-                                      -{" "}
-                                    </Text>
-                                    <Text
-                                      fontWeight={"bold"}
-                                      as={"span"}
-                                      color={UseColorModeValue(
-                                        "blue.700",
-                                        "green.400"
-                                      )}
-                                    >
-                                      {article.author}
-                                    </Text>
-                                  </>
-                                )}
+                                {extractArticleInfo(article.title)[1]}
                               </Text>
                             )}
-
-                            <Box
-                              color={UseColorModeValue(
-                                "purple.500",
-                                "purple.300"
-                              )}
-                              as="time"
-                              dateTime={article.publishedAt}
-                            >
-                              <Text
-                              // fontWeight={"bold"}
-                              >
-                                {getTimeElapsedString(article.publishedAt)}
-                              </Text>
-                            </Box>
                           </Box>
+                          <Box
+                            color={UseColorModeValue(
+                              "purple.500",
+                              "purple.300"
+                            )}
+                            as="time"
+                            dateTime={article.publishedAt}
+                          >
+                            <Text
+                            // fontWeight={"bold"}
+                            >
+                              {getTimeElapsedString(article.pubDate)}
+                            </Text>
+                          </Box>
+
+                          {/* <PublisherDetails article={article} /> */}
                         </>
                       </Card>
                     </Flex>

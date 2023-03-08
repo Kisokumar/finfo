@@ -1,10 +1,17 @@
 import { Card, Flex } from "@chakra-ui/react";
 
-import InfoPopover from "../InfoPopover";
-import { LinkButton } from "../LinkButton";
+import InfoPopover from "../reusable/InfoPopover";
+import { LinkButton } from "../reusable/LinkButton";
 import { UseColorModeValue } from "../Hooks";
 
-export default function AfterHours({ ...props }: any) {
+/**
+ * Displays whether it is afterhours trading or not.
+ *
+ * @param {object} props - The component props.
+ * @param {string} props.marketStatus - object containing individual statuses
+ * @returns {JSX.Element}
+ */
+export default function AfterHours({ ...props }: any): JSX.Element {
   if (!("status" in props.marketStatus)) {
     if (props.marketStatus.afterHours === true) {
       return (
@@ -27,7 +34,6 @@ export default function AfterHours({ ...props }: any) {
             >
               <InfoPopover
                 buttonHeight={8}
-                // buttonWidth={40}
                 contentPadding={4}
                 buttonLabel={"After Hours"}
                 title={
@@ -51,9 +57,9 @@ export default function AfterHours({ ...props }: any) {
         </>
       );
     } else {
-      return null;
+      return <></>;
     }
   } else {
-    return null;
+    return <></>;
   }
 }

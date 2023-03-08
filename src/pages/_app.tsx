@@ -5,13 +5,10 @@ import {
   extendTheme,
 } from "@chakra-ui/react";
 
-// import { Analytics } from "@vercel/analytics/react";
 import type { AppProps } from "next/app";
-import Footer from "@/components/Footer";
-import Nav from "@/components/Nav";
+import Footer from "@/components/reusable/Footer";
+import Nav from "@/components/reusable/Nav";
 import React from "react";
-
-// import React, { createContext, useState } from "react";
 
 const colors = {
   brand: {

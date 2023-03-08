@@ -1,13 +1,19 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
 
-import ErrorCard from "@/components/ErrorCard";
+import DelayedTransition from "@/components/reusable/DelayedTransition";
+import ErrorCard from "@/components/reusable/ErrorCard";
 import Head from "next/head";
-import NewsQuery from "@/components/newsPage/NewsQuery";
-import NewsSearch from "@/components/homePage/search/NewsSearch";
+import NewsSearch from "@/components/search/NewsSearch";
 import { UseColorModeValue } from "@/components/Hooks";
+import dynamic from "next/dynamic";
 import { fakeArticles } from "@/mocks/mockData";
-import fetchData from "@/utils/fetch";
 import { useRouter } from "next/router";
+
+const news = require("gnews");
+
+const NewsQuery = dynamic(() => import("@/components/newsPage/NewsQuery"), {
+  ssr: false,
+});
 
 export default function News(props: any) {
   const router = useRouter();
@@ -31,10 +37,11 @@ export default function News(props: any) {
           direction="column"
           alignItems="center"
           justifyContent="flex-start"
+          overflow={"hidden"}
         >
           {query ? (
             <>
-              {props.queryArticles.status === "ok" ? (
+              {props.queryArticles ? (
                 <>
                   <Flex
                     p={2}
@@ -45,8 +52,7 @@ export default function News(props: any) {
                     bg={UseColorModeValue("gray.200", "gray.900")}
                     rounded={"lg"}
                   >
-                    {/* <NewsSearch placeholder={`You searched: "${query}"`} /> */}
-                    <NewsSearch placeholder={`You searched "${query}"`} />
+                    <NewsSearch placeholder={`Last search: "${query}"`} />
                   </Flex>
 
                   <Box m={4}>
@@ -64,8 +70,7 @@ export default function News(props: any) {
                     bg={UseColorModeValue("gray.200", "gray.900")}
                     rounded={"lg"}
                   >
-                    {/* <NewsSearch placeholder={`You searched: "${query}"`} /> */}
-                    <NewsSearch placeholder={`You searched "${query}"`} />
+                    <NewsSearch placeholder={`Last search "${query}"`} />
                   </Flex>
 
                   <Box p={20}>
@@ -82,7 +87,7 @@ export default function News(props: any) {
             </>
           ) : (
             <>
-              {props.popularArticles.status === "ok" ? (
+              {props.queryArticles ? (
                 <>
                   <Flex
                     p={2}
@@ -97,26 +102,34 @@ export default function News(props: any) {
                   </Flex>
 
                   <Box m={4}>
-                    <Flex
-                      p={4}
-                      mx={4}
-                      direction={["column", "row", "row"]}
-                      mb={8}
-                      bg={UseColorModeValue("gray.200", "gray.900")}
-                      rounded={"lg"}
-                      justifyContent={[
-                        "flex-start",
-                        "space-between",
-                        "space-between",
-                      ]}
+                    <DelayedTransition
+                      startY={-50}
+                      startOpacity={0}
+                      duration={0.5}
+                      delay={0.6}
+                      refresh={true}
                     >
-                      <Heading pb={[8, 0, 0]} size={"sm"}>
-                        Popular business articles
-                      </Heading>
-                      <Heading size={"sm"}>
-                        Results: {props.popularArticles.articles.length}
-                      </Heading>
-                    </Flex>
+                      <Flex
+                        p={4}
+                        mx={4}
+                        direction={["column", "row", "row"]}
+                        mb={8}
+                        bg={UseColorModeValue("gray.200", "gray.900")}
+                        rounded={"lg"}
+                        justifyContent={[
+                          "flex-start",
+                          "space-between",
+                          "space-between",
+                        ]}
+                      >
+                        <Heading pb={[8, 0, 0]} size={"sm"}>
+                          Showing: Popular business articles
+                        </Heading>
+                        <Heading size={"sm"}>
+                          Results: {props.popularArticles.length}
+                        </Heading>
+                      </Flex>
+                    </DelayedTransition>
                     <NewsQuery articles={props.popularArticles} />
                   </Box>
                 </>
@@ -158,23 +171,28 @@ export async function getServerSideProps(context: any) {
   let popularArticles;
 
   if (process.env.PROD_MODE === "true") {
-    const realQueryArticles = await fetchData(
-      `https://newsapi.org/v2/everything?q=${context.query.query}&sortBy=relevancy&pageSize=100&apiKey=${process.env.ECONOMIC_NEWS_KEY}`,
-      720
-    );
-    const realPopularArticles = await fetchData(
-      "https://newsapi.org/v2/top-headlines?country=gb&category=business&pageSize=100&apiKey=" +
-        process.env.ECONOMIC_NEWS_KEY,
-      720
-    );
+    // const realQueryArticles = await fetchData(
+    //   `https://newsapi.org/v2/everything?q=${context.query.query}&sortBy=relevancy&pageSize=100&apiKey=${process.env.ECONOMIC_NEWS_KEY}`,
+    //   720
+    // );
+    // const realPopularArticles = await fetchData(
+    //   "https://newsapi.org/v2/top-headlines?country=gb&category=business&pageSize=100&apiKey=" +
+    //     process.env.ECONOMIC_NEWS_KEY,
+    //   720
+    // );
 
-    queryArticles = realQueryArticles;
+    const realPopularArticles = await news.topic("BUSINESS", { n: 5000 });
+
+    const realQueryArticles = await news.search(context.query.query, {
+      n: 5000,
+    });
+
     popularArticles = realPopularArticles;
+    queryArticles = realQueryArticles;
   } else {
     queryArticles = fakeArticles;
     popularArticles = fakeArticles;
   }
 
-  // shuffleArray(articles.articles);
   return { props: { queryArticles, popularArticles } };
 }

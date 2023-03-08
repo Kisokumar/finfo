@@ -23,7 +23,6 @@ export default function TickerTapeDisplay(props: any) {
     justify-content: center;
     align-items: center;
 
-    // overflow: hidden;
     width: calc((${props.slidesInView} / ${width}));
   `;
 
@@ -54,9 +53,9 @@ export default function TickerTapeDisplay(props: any) {
     width: calc(2 * ${numberOfSlides});
 
     &:hover {
-      .carouselSlides {
-        background-color: rgba(45, 0, 23, 0.2);
-      }
+      // .carouselSlides {
+      //   background-color: rgba(45, 0, 23, 0.2);
+      // }
       .slide {
         animation-play-state: paused;
       }

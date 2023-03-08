@@ -10,21 +10,28 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { UseColorMode, UseColorModeValue, UseDisclosure } from "./Hooks";
+import { UseColorMode, UseColorModeValue, UseDisclosure } from "../Hooks";
 
+import Image from "next/image";
 import Link from "next/link";
 import { LinkButton } from "./LinkButton";
 
 const Links = [
   { name: "Home", link: "/" },
   { name: "News", link: "/news" },
+  // { name: "Forex", link: "/forex" },
+  // { name: "Calculators", link: "/calculators" },
   { name: "Stocks", link: "/stocks" },
-  { name: "Forex", link: "/forex" },
   // { name: "Economy", link: "/economy" },
-  // { name: "Crypto", link: "/crypto" },
+  { name: "Crypto", link: "/crypto" },
 ];
 
-export default function Nav() {
+/**
+ * NavBar which uses links in array{object} format
+ *
+ * @returns {JSX.Element}
+ */
+export default function Nav(): JSX.Element {
   const { isOpen, onOpen, onClose } = UseDisclosure();
   const { colorMode, toggleColorMode } = UseColorMode();
   const bg = UseColorModeValue("gray.900", "gray.900");
@@ -59,11 +66,31 @@ export default function Nav() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              <LinkButton label="home" href="/" newTab={false}>
+              <Link href={"/"}>
+                <Flex
+                  mr={0}
+                  direction={"row"}
+                  justifyContent={"center"}
+                  alignContent={"center"}
+                >
+                  <Box rounded={"lg"} overflow={"hidden"}>
+                    <Image
+                      src={"/assets/logo.png"}
+                      alt={"logo"}
+                      width={35}
+                      height={35}
+                    />
+                  </Box>
+                  <Heading as="h1" size="1xl" noOfLines={1} mt={1} ml={3}>
+                    Finfo
+                  </Heading>
+                </Flex>
+              </Link>
+              {/* <LinkButton label="home" href="/" newTab={false}>
                 <Heading as="h1" size="1xl" noOfLines={1} mx={7}>
                   Finfo
                 </Heading>
-              </LinkButton>
+              </LinkButton> */}
 
               {Links.map((link) => (
                 <LinkButton
@@ -86,9 +113,11 @@ export default function Nav() {
                 </Heading>
               ) : (
                 <>
-                  <Heading as="h1" size="md" noOfLines={1} mx={7}>
-                    Finfo
-                  </Heading>
+                  <Link href={"/"}>
+                    <Heading as="h1" size="md" noOfLines={1}>
+                      Finfo
+                    </Heading>
+                  </Link>
                   {/* {props.PROD_MODE === true ? (
                     <>
                       <Heading as="h1" size="md" noOfLines={1} mx={7}>

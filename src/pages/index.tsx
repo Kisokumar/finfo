@@ -1,14 +1,17 @@
+import { Flex, useBreakpointValue } from "@chakra-ui/react";
 import { fakeArticles, fakeMarketStatus } from "@/mocks/mockData";
 
 import AfterHours from "@/components/homePage/AfterHours";
 import CurrencyStatus from "@/components/homePage/CurrencyStatus";
-import { Flex } from "@chakra-ui/react";
+import DelayedTransition from "@/components/reusable/DelayedTransition";
 import Head from "next/head";
 import NewsCarousel from "@/components/homePage/NewsCarousel";
 import ProdMode from "@/components/homePage/ProdMode";
-import Search from "@/components/homePage/search/Search";
+import Search from "@/components/search/Search";
 import StockStatus from "@/components/homePage/StockStatus";
 import fetchData from "@/utils/fetch";
+
+const news = require("gnews");
 
 export default function Home(props: any) {
   return (
@@ -25,30 +28,44 @@ export default function Home(props: any) {
         <link rel="apple-touch-icon" href="/assets/logo.png" />
       </Head>
       <main>
-        <Flex direction={"column"} pt={["36px", "36px", "50px"]} pb={12}>
-          <Flex
-            alignSelf={"center"}
-            direction={"row"}
-            // gap={4}
-            // mx={4}
-            // w={"full"}
+        <Flex
+          direction={"column"}
+          pt={["36px", "36px", "50px"]}
+          pb={12}
+          overflow={"hidden"}
+        >
+          <DelayedTransition
+            duration={useBreakpointValue([0.5, 0.5, 0.5])}
+            delay={useBreakpointValue([0.05, 0.05, 0.05])}
           >
-            <AfterHours marketStatus={props.marketStatus} />
-            <ProdMode {...props} />
-          </Flex>
-          <Search {...props} />
-          <NewsCarousel articles={props.articles} />
-          <Flex
-            display={"flex"}
-            direction={{ base: "column-reverse", md: "row" }}
-            mx={"auto"}
-            flexGrow={1}
-            maxW={"4xl"}
-            w={"100%"}
-          >
-            <CurrencyStatus marketStatus={props.marketStatus} />
-            <StockStatus marketStatus={props.marketStatus} />
-          </Flex>
+            <Flex justifyContent={"center"} direction={"row"}>
+              <DelayedTransition startY={-200} duration={1.42}>
+                <Flex>
+                  <AfterHours marketStatus={props.marketStatus} />
+                  <ProdMode {...props} />
+                </Flex>
+              </DelayedTransition>
+            </Flex>
+            <DelayedTransition startY={-200} duration={1.2}>
+              <Search {...props} />
+            </DelayedTransition>
+            <NewsCarousel articles={props.articles} />
+            <Flex
+              display={"flex"}
+              direction={{ base: "column-reverse", md: "row" }}
+              mx={"auto"}
+              flexGrow={1}
+              maxW={"4xl"}
+              w={"100%"}
+            >
+              <DelayedTransition startX={-200} duration={0.8}>
+                <CurrencyStatus marketStatus={props.marketStatus} />
+              </DelayedTransition>
+              <DelayedTransition startX={200} duration={0.8}>
+                <StockStatus marketStatus={props.marketStatus} />
+              </DelayedTransition>
+            </Flex>
+          </DelayedTransition>
         </Flex>
       </main>
     </>
@@ -71,11 +88,15 @@ export async function getServerSideProps() {
         process.env.STOCKS_KEY,
       2
     );
-    const realArticles = await fetchData(
-      "https://newsapi.org/v2/top-headlines?country=gb&category=business&pageSize=100&apiKey=" +
-        process.env.ECONOMIC_NEWS_KEY,
-      720
-    );
+
+    // const realArticles = await fetchData(
+    //   "https://newsapi.org/v2/top-headlines?country=gb&category=business&pageSize=100&apiKey=" +
+    //     process.env.ECONOMIC_NEWS_KEY,
+    //   720
+    // );
+
+    const realArticles = await news.topic("BUSINESS", { n: 5000 });
+
     marketStatus = realMarketStatus;
     articles = realArticles;
   } else {
@@ -84,7 +105,6 @@ export async function getServerSideProps() {
     articles = fakeArticles;
   }
 
-  // shuffleArray(articles.articles);
   return { props: { marketStatus, articles, PROD_MODE } };
   // return { props: { tickers, marketStatus } };
 }

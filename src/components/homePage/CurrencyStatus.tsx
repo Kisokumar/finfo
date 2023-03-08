@@ -1,15 +1,22 @@
 import { Card, Container, Heading, Spacer, VStack } from "@chakra-ui/react";
 
-import ErrorCard from "../ErrorCard";
+import ErrorCard from "../reusable/ErrorCard";
 import React from "react";
 import Status from "./Status";
 import { UseColorModeValue } from "../Hooks";
 import dynamic from "next/dynamic";
 
-const TimeLeft = dynamic(() => import("../TimeLeft"), {
+const TimeLeft = dynamic(() => import("../reusable/TimeLeft"), {
   ssr: false,
 });
 
+/**
+ * Display status of crypto / foreign exchange markets.
+ *
+ * @param {object} props - The component props.
+ * @param {string} props.marketStatus - object containing individual statuses
+ * @returns {JSX.Element}
+ */
 export default function CurrencyStatus(props: any) {
   if (!("status" in props.marketStatus)) {
     const crypto = Status("Crypto", props.marketStatus.currencies.crypto);

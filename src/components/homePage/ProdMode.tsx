@@ -1,7 +1,7 @@
 import { Card, Flex } from "@chakra-ui/react";
 
-import InfoPopover from "../InfoPopover";
-import { LinkButton } from "../LinkButton";
+import InfoPopover from "../reusable/InfoPopover";
+import { LinkButton } from "../reusable/LinkButton";
 import { UseColorModeValue } from "../Hooks";
 
 export default function ProdMode({ ...props }: any) {
@@ -29,7 +29,6 @@ export default function ProdMode({ ...props }: any) {
             >
               <InfoPopover
                 buttonHeight={8}
-                // buttonWidth={40}
                 buttonLabel={"Dev Mode"}
                 title={"All information seen is mock data!"}
               >
