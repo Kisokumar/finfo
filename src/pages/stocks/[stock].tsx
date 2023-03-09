@@ -30,31 +30,69 @@ export default function Stock(props: any) {
   fiftyTwoWeekLow
   fiftyTwoWeekHigh
   
-  stockInfo.price:
-  regularMarketPrice
-  exchange
-  exchangeName
-  quoteType
-  symbol
-  shortName
-  longName
-  quoteSourceName
-  currencySymbol
-  currency
   */
 
   return (
     <>
-      <Flex
-        py={["30px", "30px", "50px"]}
-        direction="column"
-        alignItems="center"
-        justifyContent="flex-start"
-        overflow={"hidden"}
-      >
-        <p>Post: {stock}</p>
-        <pre>{JSON.stringify(stockInfo, null, 4)}</pre>
-      </Flex>
+      {stockInfo.price && (
+        <>
+          <Flex
+            py={["30px", "30px", "50px"]}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            overflow={"hidden"}
+            h={"100%"}
+            m={8}
+          >
+            <Flex direction="row" gap={8}>
+              <Flex direction="column">
+                <p>
+                  {stock}: {stockInfo.price.longName}
+                </p>
+                <p>
+                  Price: {stockInfo.price.currencySymbol}
+                  {stockInfo.price.regularMarketPrice}
+                </p>
+                <p>Exchange Name: {stockInfo.price.exchangeName}</p>
+                <p>{stockInfo.price.quoteSourceName}</p>
+                <p>Market Cap: {stockInfo.price.marketCap}</p>
+                <p>Exchange: {stockInfo.price.exchange}</p>
+                <p>Quote Type: {stockInfo.price.quoteType}</p>
+                <p>
+                  Currency: {stockInfo.price.currencySymbol}
+                  {stockInfo.price.currency}
+                </p>
+              </Flex>
+              <Flex direction="column">
+                <p>Open: {stockInfo.summaryDetail.open}</p>
+                <p>Previous Close: {stockInfo.summaryDetail.previousClose}</p>
+                <p>Day Low: {stockInfo.summaryDetail.dayLow}</p>
+                <p>Day High: {stockInfo.summaryDetail.dayHigh}</p>
+                <p>Dividend Rate: {stockInfo.summaryDetail.dividendRate}</p>
+                <p>Dividend Yield: {stockInfo.summaryDetail.dividendYield}</p>
+                <p>
+                  Ex Dividend Date: {stockInfo.summaryDetail.exDividendDate}
+                </p>
+                <p>Payout Ratio: {stockInfo.summaryDetail.payoutRatio}</p>
+                <p>Beta: {stockInfo.summaryDetail.beta}</p>
+                <p>Trailing PE: {stockInfo.summaryDetail.trailingPE}</p>
+                <p>Forward PE: {stockInfo.summaryDetail.forwardPE}</p>
+                <p>Volume: {stockInfo.summaryDetail.volume}</p>
+                <p>Average Volume: {stockInfo.summaryDetail.averageVolume}</p>
+                <p>Market Cap: {stockInfo.summaryDetail.marketCap}</p>
+                <p>
+                  Fifty Two Week Low: {stockInfo.summaryDetail.fiftyTwoWeekLow}
+                </p>
+                <p>
+                  Fifty Two Week High:{" "}
+                  {stockInfo.summaryDetail.fiftyTwoWeekHigh}
+                </p>
+              </Flex>
+            </Flex>
+          </Flex>
+        </>
+      )}
     </>
   );
 }
