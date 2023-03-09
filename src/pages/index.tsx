@@ -53,10 +53,11 @@ export default function Home(props: any) {
             <Flex
               display={"flex"}
               direction={{ base: "column-reverse", md: "row" }}
-              mx={"auto"}
-              flexGrow={1}
-              maxW={"4xl"}
+              justifyContent="center"
+              alignItems={["center", "center", "start"]}
               w={"100%"}
+              my={2}
+              gap={[0, 4, 4]}
             >
               <DelayedTransition startX={-200} duration={0.8}>
                 <CurrencyStatus marketStatus={props.marketStatus} />

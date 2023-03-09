@@ -24,16 +24,7 @@ export default function CurrencyStatus(props: any) {
     const currencies: Array<JSX.Element> = [crypto, forex];
     return (
       <>
-        <Card
-          mx={4}
-          maxH={"100%"}
-          maxW={"xl"}
-          my={2}
-          mb={4}
-          p={4}
-          bg={UseColorModeValue("gray.200", "gray.900")}
-          flexGrow={"1"}
-        >
+        <Card mb={4} p={4} bg={UseColorModeValue("gray.200", "gray.900")}>
           <Heading m={2} size={"md"}>
             Currency Markets
           </Heading>
