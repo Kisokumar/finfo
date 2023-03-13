@@ -17,7 +17,7 @@ const TimeLeft = dynamic(() => import("../reusable/TimeLeft"), {
  * @param {string} props.marketStatus - object containing individual statuses
  * @returns {JSX.Element}
  */
-export default function CurrencyStatus(props: any) {
+export default function CurrencyStatus(props: any): JSX.Element {
   if (!("status" in props.marketStatus)) {
     const crypto = Status("Crypto", props.marketStatus.currencies.crypto);
     const forex = Status("Forex", props.marketStatus.currencies.fx);

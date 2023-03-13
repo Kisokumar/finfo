@@ -1,126 +1,266 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Card, Flex, Heading } from "@chakra-ui/react";
+
+import DelayedTransition from "@/components/reusable/DelayedTransition";
+import ErrorCard from "@/components/reusable/ErrorCard";
+import Head from "next/head";
 import React from "react";
+import StockInfo from "@/components/stocksPage/StockInfo";
+import StockInfoStat from "@/components/stocksPage/StockInfoStat";
+import StockSearch from "@/components/search/StockSearch";
+import { UseColorModeValue } from "@/components/Hooks";
+import VolumeChart from "@/components/reusable/VolumeChart";
 import { useRouter } from "next/router";
 
-var yahooFinance = require("yahoo-finance");
+const news = require("gnews");
+const yahooFinance = require("yahoo-finance");
 
 export default function Stock(props: any) {
   const router = useRouter();
   const { stock } = router.query;
 
-  const stockInfo = JSON.parse(props.stockInfo);
+  const stockHistory = JSON.parse(props.stockHistory);
 
-  /*
-  stockInfo.summaryDetail:
-  previousClose
-  open
-  dayLow
-  dayHigh
-  dividendRate
-  dividendYield
-  exDividendDate
-  payoutRatio
-  fiveYearAvgDvidendYield
-  beta
-  trailingPE
-  forwardPE
-  volume
-  averageVolume
-  marketCap
-  fiftyTwoWeekLow
-  fiftyTwoWeekHigh
-  
-  */
+  const graphData: any = [];
+  stockHistory.map(({ date, close }: any) => {
+    graphData.push({
+      date: new Date(date).toLocaleDateString("en-US"),
+      value: close,
+    });
+  });
+
+  const stockInfo = JSON.parse(props.stockInfo);
+  const stockStats = [
+    { "Quote Type": `${stockInfo.price?.quoteSourceName}` },
+    { Exchange: `${stockInfo.price?.exchange}` },
+    { "Ex Dividend Date": `${stockInfo.summaryDetail?.exDividendDate}` },
+    { "Forward PE": `${stockInfo.summaryDetail?.forwardPE}` },
+    { "Dividend Rate": `${stockInfo.summaryDetail?.dividendRate}` },
+    { "Dividend Yield": `${stockInfo.summaryDetail?.dividendYield}` },
+    { "Payout Ratio": `${stockInfo.summaryDetail?.payoutRatio}` },
+  ];
+  const stockFundamentals = [
+    {
+      "Market Cap": `${stockInfo.price?.currencySymbol}${stockInfo.price?.marketCap}`,
+    },
+    {
+      "Open price": `${stockInfo.price?.currencySymbol}${stockInfo.summaryDetail?.open}`,
+    },
+    { "Previous Close": `${stockInfo.summaryDetail?.previousClose}` },
+    { "Day Low": `${stockInfo.summaryDetail?.dayLow}` },
+    { "Day High": `${stockInfo.summaryDetail?.dayHigh}` },
+    { Beta: `${stockInfo.summaryDetail?.beta}` },
+    { "Trailing PE": `${stockInfo.summaryDetail?.trailingPE}` },
+    { Volume: `${stockInfo.summaryDetail?.volume}` },
+    { "Average Volume": `${stockInfo.summaryDetail?.averageVolume}` },
+    { "Market Cap": `${stockInfo.summaryDetail?.marketCap}` },
+    { "Fifty Two Week Low": `${stockInfo.summaryDetail?.fiftyTwoWeekLow}` },
+    { "Fifty Two Week High": `${stockInfo.summaryDetail?.fiftyTwoWeekHigh}` },
+  ];
 
   return (
     <>
-      {stockInfo.price && (
+      <Head>
+        <title>News</title>
+        <meta
+          name="description"
+          content="Financial information at your fingertips"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/assets/logo.png" />
+      </Head>
+      <main>
         <>
           <Flex
-            py={["30px", "30px", "50px"]}
+            pt={["30px", "30px", "50px"]}
             direction="column"
             alignItems="center"
-            justifyContent="center"
+            justifyContent="flex-start"
             overflow={"hidden"}
-            h={"100%"}
-            m={8}
           >
-            <Flex direction="row" gap={8}>
-              <Flex direction="column">
-                <p>
-                  {stock}: {stockInfo.price.longName}
-                </p>
-                <p>
-                  Price: {stockInfo.price.currencySymbol}
-                  {stockInfo.price.regularMarketPrice}
-                </p>
-                <p>Exchange Name: {stockInfo.price.exchangeName}</p>
-                <p>{stockInfo.price.quoteSourceName}</p>
-                <p>Market Cap: {stockInfo.price.marketCap}</p>
-                <p>Exchange: {stockInfo.price.exchange}</p>
-                <p>Quote Type: {stockInfo.price.quoteType}</p>
-                <p>
-                  Currency: {stockInfo.price.currencySymbol}
-                  {stockInfo.price.currency}
-                </p>
-              </Flex>
-              <Flex direction="column">
-                <p>Open: {stockInfo.summaryDetail.open}</p>
-                <p>Previous Close: {stockInfo.summaryDetail.previousClose}</p>
-                <p>Day Low: {stockInfo.summaryDetail.dayLow}</p>
-                <p>Day High: {stockInfo.summaryDetail.dayHigh}</p>
-                <p>Dividend Rate: {stockInfo.summaryDetail.dividendRate}</p>
-                <p>Dividend Yield: {stockInfo.summaryDetail.dividendYield}</p>
-                <p>
-                  Ex Dividend Date: {stockInfo.summaryDetail.exDividendDate}
-                </p>
-                <p>Payout Ratio: {stockInfo.summaryDetail.payoutRatio}</p>
-                <p>Beta: {stockInfo.summaryDetail.beta}</p>
-                <p>Trailing PE: {stockInfo.summaryDetail.trailingPE}</p>
-                <p>Forward PE: {stockInfo.summaryDetail.forwardPE}</p>
-                <p>Volume: {stockInfo.summaryDetail.volume}</p>
-                <p>Average Volume: {stockInfo.summaryDetail.averageVolume}</p>
-                <p>Market Cap: {stockInfo.summaryDetail.marketCap}</p>
-                <p>
-                  Fifty Two Week Low: {stockInfo.summaryDetail.fiftyTwoWeekLow}
-                </p>
-                <p>
-                  Fifty Two Week High:{" "}
-                  {stockInfo.summaryDetail.fiftyTwoWeekHigh}
-                </p>
-              </Flex>
-            </Flex>
+            {stockInfo.price?.longName ? (
+              <>
+                <>
+                  <Flex
+                    p={2}
+                    m={4}
+                    mx={8}
+                    alignContent={"center"}
+                    justifyContent={"center"}
+                    bg={UseColorModeValue("gray.200", "gray.900")}
+                    rounded={"lg"}
+                  >
+                    <StockSearch placeholder={`${stock}`} />
+                  </Flex>
+                  <Box m={2} w={"full"}>
+                    <DelayedTransition
+                      startY={-50}
+                      startOpacity={0}
+                      duration={0.5}
+                      delay={0.5}
+                      refresh={true}
+                    >
+                      <Flex
+                        p={4}
+                        mx={8}
+                        direction={["column", "row", "row"]}
+                        bg={UseColorModeValue("gray.200", "gray.900")}
+                        rounded={"lg"}
+                        justifyContent={[
+                          "flex-start",
+                          "space-between",
+                          "space-between",
+                        ]}
+                      >
+                        <Heading pb={[8, 0, 0]} size={"sm"}>
+                          Stock: {stockInfo.price?.longName}
+                        </Heading>
+                        <Heading pb={[8, 0, 0]} size={"sm"}>
+                          Price: {stockInfo.price.currencySymbol}
+                          {stockInfo.price.regularMarketPrice}
+                        </Heading>
+                        <Heading size={"sm"}>
+                          Quote Type: {stockInfo.price.quoteType}
+                        </Heading>
+                        <Heading size={"sm"}>
+                          Exchange Name: {stockInfo.price.exchangeName}
+                        </Heading>
+                      </Flex>
+                    </DelayedTransition>
+                  </Box>
+                </>
+
+                <Flex
+                  px={8}
+                  py={4}
+                  gap={4}
+                  maxH={640}
+                  direction={["column", "column", "row"]}
+                  w={"100%"}
+                  overflow={"scroll"}
+                >
+                  <Flex
+                    w={["100%", "100%", "50%"]}
+                    h={"100%"}
+                    direction={"column"}
+                    gap={4}
+                    overflow={"scroll"}
+                  >
+                    <Flex w={"100%"} h={"full"}>
+                      <Flex w={"100%"}>
+                        <Card
+                          w={"100%"}
+                          h={"100%"}
+                          p={4}
+                          bg={UseColorModeValue("gray.200", "gray.900")}
+                        >
+                          <Flex w={"full"} h={248}>
+                            <VolumeChart
+                              data={graphData}
+                              chartWidth={200}
+                              chartHeight={400}
+                            />
+                          </Flex>
+                        </Card>
+                      </Flex>
+                    </Flex>
+                    <Flex w={"100%"}>
+                      <StockInfo heading={"Additional Info:"}>
+                        {stockStats.map((stat, idx) => {
+                          return (
+                            <StockInfoStat
+                              key={idx}
+                              field={`${Object.keys(stat)}: `}
+                              entry={Object.values(stat)}
+                            />
+                          );
+                        })}
+                      </StockInfo>
+                    </Flex>
+                  </Flex>
+                  <Flex w={["100%", "100%", "50%"]} h={"100%"}>
+                    <StockInfo heading={"Fundamentals:"}>
+                      {stockFundamentals.map((stat, idx) => {
+                        if (Object.values(stat)[0] !== "undefined") {
+                          return (
+                            <StockInfoStat
+                              key={idx}
+                              field={`${Object.keys(stat)}: `}
+                              entry={Object.values(stat)}
+                            />
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
+                    </StockInfo>
+                  </Flex>
+                </Flex>
+              </>
+            ) : (
+              <>
+                <Flex
+                  p={2}
+                  m={4}
+                  mx={8}
+                  alignContent={"center"}
+                  justifyContent={"center"}
+                  bg={UseColorModeValue("gray.200", "gray.900")}
+                  rounded={"lg"}
+                >
+                  <StockSearch placeholder={`${stock}`} />
+                </Flex>
+
+                <Box p={20}>
+                  <ErrorCard
+                    key="Article Error"
+                    title={`You searched: "${stock}"`}
+                    message={`We found no tickers that match!`}
+                    secondmessage={`Please try a different ticker. e.g: "amzn"`}
+                    p={8}
+                  />
+                </Box>
+              </>
+            )}
           </Flex>
         </>
-      )}
+      </main>
     </>
   );
 }
 
 export async function getServerSideProps(context: any) {
   const stockName = context.params.stock;
-  // let stockHistory;
-  let stockInfo;
+  let stockHistory: any;
+  let stockInfo: any;
+  const today: string = new Date().toLocaleDateString("en-US");
+  const from = new Date();
+  from.setFullYear(from.getFullYear() - 100);
+  const twentyYearsAgoFormatted: string = from.toLocaleDateString("en-US");
 
   try {
-    // await new Promise((resolve, reject) => {
-    //   yahooFinance.historical(
-    //     {
-    //       symbol: stockName,
-    //       from: "2023-01-09",
-    //       to: "2023-03-10",
-    //       period: "d",
-    //     },
-    //     function (err: any, news: any) {
-    //       if (err) {
-    //         reject(err);
-    //       } else {
-    //         resolve(news);
-    //       }
-    //     }
-    //   );
-    // });
+    stockHistory = await new Promise((resolve, reject) => {
+      yahooFinance.historical(
+        {
+          symbol: stockName,
+          from: twentyYearsAgoFormatted,
+          to: today,
+          period: "d",
+        },
+        function (err: any, news: any) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(news);
+          }
+        }
+      );
+    });
+  } catch (err) {
+    stockHistory = {};
+  }
 
+  try {
     stockInfo = await new Promise((resolve, reject) => {
       yahooFinance.quote(
         {
@@ -138,10 +278,23 @@ export async function getServerSideProps(context: any) {
     });
   } catch (err) {
     console.error(err);
-    // stockHistory = [];
     stockInfo = {};
   }
-  stockInfo = JSON.stringify(stockInfo);
 
-  return { props: { stockInfo } };
+  // (stockInfo.price.longName);
+  let articles;
+
+  articles = await news.search(
+    `${stockInfo.price?.longName} stock shares
+  `,
+    {
+      n: 5000,
+    }
+  );
+
+  stockInfo = JSON.stringify(stockInfo);
+  stockHistory = stockHistory.reverse();
+  stockHistory = JSON.stringify(stockHistory);
+
+  return { props: { stockHistory, stockInfo, articles } };
 }

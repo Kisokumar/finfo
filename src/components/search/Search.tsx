@@ -10,36 +10,30 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 
-import BaseSearch from "./BaseSearch";
-// import MortgageCalculator from "./MortgageCalculator";
 import NewsSearch from "./NewsSearch";
 import React from "react";
+import StockSearch from "./StockSearch";
 import { UseColorModeValue } from "../Hooks";
 
 const searchTabs = [
-  // {
-  //   name: "Mortgages",
-  //   disabled: false,
-  //   component: (props: any) => <MortgageCalculator {...props} />,
-  // },
   {
     name: "News",
-    placeholder: "Search News. . .",
+    placeholder: `e.g: "interest rates uk"`,
     disabled: false,
     component: (props: any) => <NewsSearch {...props} />,
   },
-  {
-    name: "Forex",
-    placeholder: "Search Forex. . .",
-    disabled: false,
-    component: (props: any) => <BaseSearch {...props} />,
-  },
   // {
-  //   name: "Stocks",
-  //   placeholder: "Search Stocks. . .",
-  //   disabled: true,
+  //   name: "Forex",
+  //   placeholder: "Search Forex. . .",
+  //   disabled: false,
   //   component: (props: any) => <BaseSearch {...props} />,
   // },
+  {
+    name: "Stocks",
+    placeholder: `e.g: "AAPL" or "amzn"`,
+    disabled: false,
+    component: (props: any) => <StockSearch {...props} />,
+  },
   // {
   //   name: "Crypto",
   //   placeholder: "Search Crypto. . .",
@@ -55,6 +49,7 @@ export default function Search(props: any) {
         <Card
           maxW={"2xl"}
           w={"100%"}
+          // p={4}
           bg={UseColorModeValue("gray.200", "gray.900")}
           flexDir={"row"}
         >
@@ -90,3 +85,9 @@ export default function Search(props: any) {
     </>
   );
 }
+
+// <ErrorCard
+//   title="Currencies"
+//   message="Currency exchange status is currently unavailable."
+//   secondmessage="Try again in one minute."
+// />
