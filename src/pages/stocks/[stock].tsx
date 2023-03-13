@@ -245,7 +245,7 @@ export async function getServerSideProps(context: any) {
           symbol: stockName,
           from: twentyYearsAgoFormatted,
           to: today,
-          period: "d",
+          period: "w",
         },
         function (err: any, news: any) {
           if (err) {

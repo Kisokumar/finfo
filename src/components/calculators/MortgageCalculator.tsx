@@ -2,8 +2,8 @@
 
 import { Card, Flex, Heading } from "@chakra-ui/react";
 
-import { FieldType } from "@/components/reusable/StatefulInputField";
-import StatefulInputField from "@/components/reusable/StatefulInputField";
+import { FieldType } from "@/components/calculators/StatefulNumberInput";
+import StatefulInputField from "@/components/calculators/StatefulNumberInput";
 import { UseColorModeValue } from "../Hooks";
 import { useState } from "react";
 

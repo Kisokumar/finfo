@@ -112,7 +112,7 @@ export default function Stocks(props: any) {
                 bg={UseColorModeValue("gray.200", "gray.900")}
               >
                 <Flex w={500} h={300} direction={"column"}>
-                  <Heading size={"sm"}>S&P 500 (past year)</Heading>
+                  <Heading size={"sm"}>S&P 500 </Heading>
                   <VolumeChart
                     data={graphData}
                     chartWidth={200}

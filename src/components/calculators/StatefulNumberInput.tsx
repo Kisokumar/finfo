@@ -17,7 +17,7 @@ interface InputFieldProps {
   type?: FieldType;
 }
 
-function StatefulInputField({
+export default function StatefulNumberInput({
   setter,
   getter,
   placeholder,
@@ -66,5 +66,3 @@ function StatefulInputField({
     </Flex>
   );
 }
-
-export default StatefulInputField;
