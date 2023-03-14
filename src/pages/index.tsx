@@ -17,7 +17,7 @@ export default function Home(props: any) {
   return (
     <>
       <Head>
-        <title>Finfo</title>
+        <title>Stocks</title>
         <meta
           name="description"
           content="Financial information at your fingertips"
@@ -53,10 +53,11 @@ export default function Home(props: any) {
             <Flex
               display={"flex"}
               direction={{ base: "column-reverse", md: "row" }}
-              mx={"auto"}
-              flexGrow={1}
-              maxW={"4xl"}
+              justifyContent="center"
+              alignItems={["center", "center", "start"]}
               w={"100%"}
+              my={2}
+              gap={[0, 4, 4]}
             >
               <DelayedTransition startX={-200} duration={0.8}>
                 <CurrencyStatus marketStatus={props.marketStatus} />
@@ -95,7 +96,7 @@ export async function getServerSideProps() {
     //   720
     // );
 
-    const realArticles = await news.topic("BUSINESS", { n: 5000 });
+    const realArticles = await news.topic("BUSINESS", { n: 50 });
 
     marketStatus = realMarketStatus;
     articles = realArticles;

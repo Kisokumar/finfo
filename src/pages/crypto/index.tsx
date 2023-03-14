@@ -1,4 +1,3 @@
-import ComingSoon from "@/components/ComingSoon";
 import Head from "next/head";
 
 export default function Crypto() {
@@ -14,9 +13,7 @@ export default function Crypto() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />
       </Head>
-      <main>
-        <ComingSoon title={"Crypto"} />
-      </main>
+      <main>Coming Soon</main>
     </>
   );
 }

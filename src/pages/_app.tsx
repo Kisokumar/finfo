@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       {/* <AppInfoContext.Provider value={appInfo}> */}
-      <Box h="calc(100vh)" w="calc(100vw)">
+      <Box>
         <Nav />
         <Component {...pageProps} />
         {/* <Analytics /> */}

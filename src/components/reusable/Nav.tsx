@@ -19,11 +19,11 @@ import { LinkButton } from "./LinkButton";
 const Links = [
   { name: "Home", link: "/" },
   { name: "News", link: "/news" },
+  { name: "Stocks", link: "/stocks" },
   // { name: "Forex", link: "/forex" },
   // { name: "Calculators", link: "/calculators" },
-  { name: "Stocks", link: "/stocks" },
   // { name: "Economy", link: "/economy" },
-  { name: "Crypto", link: "/crypto" },
+  // { name: "Crypto", link: "/crypto" },
 ];
 
 /**
