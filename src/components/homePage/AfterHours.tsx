@@ -39,7 +39,7 @@ export default function AfterHours({ ...props }: any): JSX.Element {
                 title={
                   "After-hours trading takes place after the trading day for a stock exchange, and it allows you to buy or sell stocks outside of normal trading hours. Typical after-hours trading hours in the U.S. are between 4 p.m. and 8 p.m. ET."
                 }
-                titleColor={UseColorModeValue("red.500", "red.500")}
+                titleColor={UseColorModeValue("red.400", "red.400")}
                 textWidth={"bold"}
               >
                 <LinkButton

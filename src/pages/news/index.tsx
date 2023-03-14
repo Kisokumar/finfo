@@ -41,7 +41,7 @@ export default function News(props: any) {
         >
           {query ? (
             <>
-              {props.queryArticles ? (
+              {props.queryArticles.length > 0 ? (
                 <>
                   <Flex
                     p={2}
@@ -52,7 +52,7 @@ export default function News(props: any) {
                     bg={UseColorModeValue("gray.200", "gray.900")}
                     rounded={"lg"}
                   >
-                    <NewsSearch placeholder={`Last search: "${query}"`} />
+                    <NewsSearch placeholder={`${query}`} />
                   </Flex>
 
                   <Box m={4}>
@@ -70,15 +70,15 @@ export default function News(props: any) {
                     bg={UseColorModeValue("gray.200", "gray.900")}
                     rounded={"lg"}
                   >
-                    <NewsSearch placeholder={`Last search "${query}"`} />
+                    <NewsSearch placeholder={`${query}`} />
                   </Flex>
 
                   <Box p={20}>
                     <ErrorCard
                       key="Article Error"
                       title={`You searched: "${query}"`}
-                      message={`News articles are currently unavailable.`}
-                      secondmessage="Please try again later."
+                      message={`There are no results!`}
+                      secondmessage="Please try a expanding your query."
                       p={8}
                     />
                   </Box>
@@ -98,7 +98,8 @@ export default function News(props: any) {
                     bg={UseColorModeValue("gray.200", "gray.900")}
                     rounded={"lg"}
                   >
-                    <NewsSearch placeholder={`Try Searching!`} />
+                    {/* <NewsSearch placeholder={`Try Searching!`} /> */}
+                    <NewsSearch placeholder={`e.g: "interest rates uk"`} />
                   </Flex>
 
                   <Box m={4}>
@@ -144,7 +145,8 @@ export default function News(props: any) {
                     bg={UseColorModeValue("gray.200", "gray.900")}
                     rounded={"lg"}
                   >
-                    <NewsSearch placeholder={`Try Searching!`} />
+                    {/* <NewsSearch placeholder={`Try Searching!`} /> */}
+                    <NewsSearch placeholder={`e.g: "interest rates uk"`} />
                   </Flex>
 
                   <Box p={20}>

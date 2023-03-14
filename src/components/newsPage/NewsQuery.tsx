@@ -26,11 +26,13 @@ import { UseColorModeValue } from "../Hooks";
 import extractArticleInfo from "@/utils/extractArticleInfo";
 import hasKeys from "@/utils/hasKeys";
 import lowerCaseKeys from "@/utils/lowercaseKeys";
-import reorderArticlesByDate from "@/utils/reorderArticlesByDate";
+
+// import reorderArticlesByDate from "@/utils/reorderArticlesByDate";
 
 export default function NewsQuery(props: any) {
-  const unOrderedArticles = props.articles;
-  const articles = reorderArticlesByDate(unOrderedArticles);
+  // const unOrderedArticles = props.articles;
+  // const articles = reorderArticlesByDate(unOrderedArticles);
+  const articles = props.articles;
 
   lowerCaseKeys(articles);
   return (

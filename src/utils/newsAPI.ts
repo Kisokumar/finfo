@@ -39,7 +39,6 @@ export const search = async (
     encodeURIComponent(query) +
     "&" +
     fillCountryLangParams(country.toUpperCase(), language.toLowerCase());
-  console.log(url);
   return (await getRss(url)).items.slice(0, Math.max(0, n));
 };
 

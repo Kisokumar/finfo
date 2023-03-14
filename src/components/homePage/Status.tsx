@@ -26,6 +26,6 @@ export default function Status(title: any, stat: any) {
   } else if (stat === "extended-hours") {
     return <>{textBox(title, stat, "orange.500", "orange.500")}</>;
   } else {
-    return <>{textBox(title, stat, "red.500", "red.500")}</>;
+    return <>{textBox(title, stat, "red.400", "red.400")}</>;
   }
 }
